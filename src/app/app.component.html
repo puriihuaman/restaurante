@@ -4,20 +4,44 @@
   <div class="container">
     <div class="left">
       <section>
-        <h2>Hamburguesas</h2>
+        <h2 class="title">Hamburguesas</h2>
+
+        <div class="category">
+          <ul class="category-content">
+            @for (burger of allBurgers; track burger.id) {
+            <li class="item">{{ burger.title }} {{ burger.price }}</li>
+            }
+          </ul>
+        </div>
       </section>
 
       <section>
-        <h2>Ensaladas</h2>
+        <h2 class="title">Ensaladas</h2>
+
+        <div class="category">
+          <ul class="category-content">
+            @for (salad of allSalads; track salad.id) {
+            <li class="item">{{ salad.title }} {{ salad.price }}</li>
+            }
+          </ul>
+        </div>
       </section>
 
       <section>
-        <h2>Bebidas</h2>
+        <h2 class="title">Bebidas</h2>
+
+        <div class="category">
+          <ul class="category-content">
+            @for (drink of allDrinks; track drink.id) {
+            <li class="item">{{ drink.title }} {{ drink.price }}</li>
+            }
+          </ul>
+        </div>
       </section>
     </div>
 
     <div class="right">
-      <h3>Pedido</h3>
+      <h3 class="title">Pedido</h3>
 
       <ul></ul>
 
@@ -26,8 +50,8 @@
       </div>
 
       <footer>
-        <button>Eliminar pedido</button>
-        <button>Imprimir</button>
+        <button class="button cancel">Eliminar pedido</button>
+        <button class="button pay">Imprimir</button>
       </footer>
     </div>
   </div>
