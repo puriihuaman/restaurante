@@ -9,7 +9,12 @@
         <div class="category">
           <ul class="category-content">
             @for (burger of allBurgers; track burger.id) {
-            <li class="item">{{ burger.title }} {{ burger.price }}</li>
+            <li class="item">
+              <p>{{ burger.title }} {{ burger.price }}</p>
+              <button class="button pay" (click)="handleAddOrder(burger)">
+                add
+              </button>
+            </li>
             }
           </ul>
         </div>
@@ -21,7 +26,12 @@
         <div class="category">
           <ul class="category-content">
             @for (salad of allSalads; track salad.id) {
-            <li class="item">{{ salad.title }} {{ salad.price }}</li>
+            <li class="item">
+              <p>{{ salad.title }} {{ salad.price }}</p>
+              <button class="button pay" (click)="handleAddOrder(salad)">
+                add
+              </button>
+            </li>
             }
           </ul>
         </div>
@@ -33,7 +43,12 @@
         <div class="category">
           <ul class="category-content">
             @for (drink of allDrinks; track drink.id) {
-            <li class="item">{{ drink.title }} {{ drink.price }}</li>
+            <li class="item">
+              <p>{{ drink.title }} {{ drink.price }}</p>
+              <button class="button pay" (click)="handleAddOrder(drink)">
+                add
+              </button>
+            </li>
             }
           </ul>
         </div>
@@ -43,10 +58,31 @@
     <div class="right">
       <h3 class="title">Pedido</h3>
 
-      <ul></ul>
+      <ul class="order">
+        @for (prod of allOrderProducts; track prod.product.id) {
+        <li class="order-item">
+          <div>*</div>
+          <p class="order-title">{{ prod.product.title }}</p>
+          <p>{{ prod.quantity }}</p>
+
+          <div class="order-actions">
+            <input
+              type="number"
+              name="amount"
+              id="amount"
+              class="order-input"
+              value="1"
+              min="1"
+            />
+
+            <button class="button cancel">X</button>
+          </div>
+        </li>
+        }
+      </ul>
 
       <div>
-        <p>Total:</p>
+        <p>Total: $/. {{ total }}</p>
       </div>
 
       <footer>
