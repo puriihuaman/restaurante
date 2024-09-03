@@ -1,0 +1,109 @@
+html,
+*,
+*::before,
+*::after {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: none;
+	box-sizing: border-box;
+	vertical-align: baseline;
+	scroll-behavior: smooth;
+}
+
+*::before,
+*::after,
+*::marker {
+	display: block;
+}
+
+/* Reseteamos los enlaces para funcionar como cajas... */
+a {
+	display: inline-block;
+	text-decoration: none;
+	color: inherit;
+	font-size: inherit;
+}
+
+li {
+	list-style-type: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+strong,
+b,
+p,
+blockquote,
+a,
+i,
+u,
+em {
+	font-size: 1em;
+	font-weight: inherit;
+	font-style: inherit;
+	text-decoration: none;
+	color: inherit;
+}
+
+form,
+input,
+textarea,
+select,
+datalist,
+button,
+label,
+option {
+	font-family: inherit;
+	font-size: inherit;
+	hyphens: auto;
+	background-color: transparent;
+	display: block;
+	color: inherit;
+	// appearance: none; /* opcional */
+}
+
+table,
+tr,
+td {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/* Evitamos problemas con las imagenes */
+img,
+picture,
+video,
+iframe,
+figure {
+	display: block;
+	max-width: 100%;
+	width: 100%;
+
+	object-fit: cover; /* (Opcional) */
+	object-position: center center; /* (Opcional) */
+}
+
+/* Evitamos problemas con los SVG */
+svg {
+	display: block;
+	width: 100%;
+	fill: currentColor;
+}
+
+/* base */
+body {
+	min-height: 100vh;
+	font-size: 100%;
+
+	font-family: var(--main-font);
+	line-height: var(--lineHeights-base, 1.5em); /* opcional */
+	// hyphens: auto; /* opcional */
+	// font-smooth: always; /* opcional */
+	// -webkit-font-smoothing: antialiased; /* opcional */
+	// -moz-osx-font-smoothing: grayscale; /* opcional */
+}
