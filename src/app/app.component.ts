@@ -1,4 +1,5 @@
 import { Component, inject, type OnInit } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 import { RouterOutlet } from "@angular/router";
 import type { Product } from "./core/models/product";
 import { OrderService } from "./core/services/order.service";
@@ -7,7 +8,7 @@ import { ProductService } from "./core/services/product.service";
 @Component({
   selector: "app-root",
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, FormsModule],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.scss",
 })
@@ -32,8 +33,11 @@ export class AppComponent implements OnInit {
     this.allOrderProducts = this.orderService.allProducts;
   }
 
-  handleAddOrder(product: Product) {
-    this.orderService.addOrder(product, 1);
+  handleAddOrder(product: Product, action: Action = "ADD") {
+    this.orderService.addOrder(product, 1, action);
     this.total = this.orderService.totalToPay;
+    this.allOrderProducts = this.orderService.allProducts;
   }
 }
+
+type Action = "ADD" | "REMOVE";

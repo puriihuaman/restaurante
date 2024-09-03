@@ -11,7 +11,10 @@
             @for (burger of allBurgers; track burger.id) {
             <li class="item">
               <p>{{ burger.title }} {{ burger.price }}</p>
-              <button class="button pay" (click)="handleAddOrder(burger)">
+              <button
+                class="button pay"
+                (click)="handleAddOrder(burger, 'ADD')"
+              >
                 add
               </button>
             </li>
@@ -28,7 +31,7 @@
             @for (salad of allSalads; track salad.id) {
             <li class="item">
               <p>{{ salad.title }} {{ salad.price }}</p>
-              <button class="button pay" (click)="handleAddOrder(salad)">
+              <button class="button pay" (click)="handleAddOrder(salad, 'ADD')">
                 add
               </button>
             </li>
@@ -45,7 +48,7 @@
             @for (drink of allDrinks; track drink.id) {
             <li class="item">
               <p>{{ drink.title }} {{ drink.price }}</p>
-              <button class="button pay" (click)="handleAddOrder(drink)">
+              <button class="button pay" (click)="handleAddOrder(drink, 'ADD')">
                 add
               </button>
             </li>
@@ -63,17 +66,24 @@
         <li class="order-item">
           <div>*</div>
           <p class="order-title">{{ prod.product.title }}</p>
-          <p>{{ prod.quantity }}</p>
+          <p>$/.{{ prod.product.price }}</p>
 
           <div class="order-actions">
-            <input
-              type="number"
-              name="amount"
-              id="amount"
-              class="order-input"
-              value="1"
-              min="1"
-            />
+            <div class="order-add">
+              <button
+                class="button pay increase"
+                (click)="handleAddOrder(prod.product, 'ADD')"
+              >
+                +
+              </button>
+              <p>{{ prod.quantity }}</p>
+              <button
+                class="button decrease"
+                (click)="handleAddOrder(prod.product, 'REMOVE')"
+              >
+                -
+              </button>
+            </div>
 
             <button class="button cancel">X</button>
           </div>

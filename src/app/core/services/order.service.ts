@@ -11,20 +11,31 @@ export class OrderService {
   private total: number = 0;
   constructor() {}
 
-  addOrder(product: Product, amount: number): void {
+  addOrder(product: Product, amount: number, action: Action = "ADD"): void {
     const existingProduct = this.products.find(
       (prod) => prod.product.id === product.id
     );
-    if (existingProduct) {
-      existingProduct.quantity += amount;
-    } else {
-      this.products.push({ product, quantity: amount });
+
+    if (action === "ADD") {
+      if (existingProduct) existingProduct.quantity += amount;
+      else this.products.push({ product, quantity: amount });
+    } else if (action === "REMOVE") {
+      if (existingProduct) {
+        existingProduct.quantity -= amount;
+        if (existingProduct.quantity <= 0) {
+          this.products = this.products.filter(
+            (prod) => prod.product.id !== product.id
+          );
+        }
+      } else {
+        console.warn(`El producto ${product.title} no existe en el pedido.`);
+      }
     }
 
     this.total = this.products.reduce((acc, { product, quantity }) => {
       return acc + product.price * quantity;
     }, 0);
-    console.log(this.total);
+
     this.allOrders.push(
       new Order(crypto.randomUUID(), this.products, this.total)
     );
@@ -46,4 +57,4 @@ export class OrderService {
   }
 }
 
-// {codigo, [  ], total}
+type Action = "ADD" | "REMOVE";
