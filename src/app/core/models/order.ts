@@ -23,7 +23,15 @@ export class Order {
     return this._products;
   }
 
+  set setProducts(_products: { product: Product; quantity: number }[]) {
+    this._products = _products;
+  }
+
   get total(): number {
     return this._total;
+  }
+
+  set total(_total: number) {
+    this._total = _total;
   }
 }

@@ -7,8 +7,12 @@ import { Injectable } from "@angular/core";
 })
 export class OrderService {
   private products: { product: Product; quantity: number }[] = [];
-  private allOrders: Order[] = [];
   private total: number = 0;
+  private order: Order = new Order(
+    crypto.randomUUID(),
+    this.products,
+    this.total
+  );
   constructor() {}
 
   addOrder(product: Product, amount: number, action: Action = "ADD"): void {
@@ -36,16 +40,20 @@ export class OrderService {
       return acc + product.price * quantity;
     }, 0);
 
-    this.allOrders.push(
-      new Order(crypto.randomUUID(), this.products, this.total)
-    );
+    // this.allOrders.push(
+    //   new Order(crypto.randomUUID(), this.products, this.total)
+    // );
+    this.order.setProducts = [...this.products];
+    this.order.total = this.total;
+    console.log(this.order);
+    localStorage.setItem("ORDER", JSON.stringify(this.order));
 
     // this.products = [];
     // this.total = 0;
   }
 
-  get allOrder(): Order[] {
-    return this.allOrders;
+  get allOrder() {
+    return [];
   }
 
   get allProducts() {

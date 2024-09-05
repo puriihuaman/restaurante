@@ -76,7 +76,7 @@
               >
                 +
               </button>
-              <p>{{ prod.quantity }}</p>
+              <p class="order-amount">{{ prod.quantity }}</p>
               <button
                 class="button decrease"
                 (click)="handleAddOrder(prod.product, 'REMOVE')"
@@ -85,7 +85,7 @@
               </button>
             </div>
 
-            <button class="button cancel">X</button>
+            <button class="button cancel remove">X</button>
           </div>
         </li>
         }
