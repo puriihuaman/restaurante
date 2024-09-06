@@ -4,40 +4,49 @@ import { RouterOutlet } from "@angular/router";
 import type { Product } from "./core/models/product";
 import { OrderService } from "./core/services/order.service";
 import { ProductService } from "./core/services/product.service";
+import type { Order } from "./core/models/order";
 
 @Component({
-  selector: "app-root",
-  standalone: true,
-  imports: [RouterOutlet, FormsModule],
-  templateUrl: "./app.component.html",
-  styleUrl: "./app.component.scss",
+	selector: "app-root",
+	standalone: true,
+	imports: [RouterOutlet, FormsModule],
+	templateUrl: "./app.component.html",
+	styleUrl: "./app.component.scss",
 })
 export class AppComponent implements OnInit {
-  private productService: ProductService = inject(ProductService);
-  private orderService: OrderService = inject(OrderService);
-  public allProduct: Product[] = [];
+	private productService: ProductService = inject(ProductService);
+	private orderService: OrderService = inject(OrderService);
+	public allProduct: Product[] = [];
 
-  public allBurgers: Product[] = [];
-  public allSalads: Product[] = [];
-  public allDrinks: Product[] = [];
+	public allBurgers: Product[] = [];
+	public allSalads: Product[] = [];
+	public allDrinks: Product[] = [];
 
-  public allOrderProducts: { product: Product; quantity: number }[] = [];
-  public total: number = 0;
+	public allOrderProducts: { product: Product; quantity: number }[] = [];
+	public order!: Order;
+	public total: number = 0;
 
-  ngOnInit(): void {
-    this.allProduct = this.productService.getAllProducts;
-    this.allBurgers = this.productService.allBurgers;
-    this.allSalads = this.productService.allSalads;
-    this.allDrinks = this.productService.allDrinks;
+	ngOnInit(): void {
+		this.allProduct = this.productService.getAllProducts;
+		this.allBurgers = this.productService.allBurgers;
+		this.allSalads = this.productService.allSalads;
+		this.allDrinks = this.productService.allDrinks;
 
-    this.allOrderProducts = this.orderService.allProducts;
-  }
+		// this.allOrderProducts = this.orderService.allProducts;
+		this.order = this.orderService.allOrder();
+	}
 
-  handleAddOrder(product: Product, action: Action = "ADD") {
-    this.orderService.addOrder(product, 1, action);
-    this.total = this.orderService.totalToPay;
-    this.allOrderProducts = this.orderService.allProducts;
-  }
+	handleAddOrder(product: Product, action: Action = "ADD") {
+		this.orderService.addOrder(product, 1, action);
+		this.total = this.orderService.totalToPay;
+		// this.allOrderProducts = this.orderService.allProducts;
+		this.order = this.orderService.allOrder();
+	}
+
+	handleRemoveProduct(productId: string) {
+		this.orderService.removeProduct(productId);
+		this.total = this.orderService.totalToPay;
+	}
 }
 
 type Action = "ADD" | "REMOVE";
