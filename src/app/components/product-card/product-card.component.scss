@@ -1,0 +1,30 @@
+.item {
+	background: var(--gray-900);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	border-radius: var(--radii-md);
+	text-align: center;
+	background-image: url(https://d31npzejelj8v1.cloudfront.net/media/catalog/product/b/a/base-bembos-royal.jpg);
+	background-origin: border-box;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	background-blend-mode: difference;
+	mask-image: radial-gradient(black 40%, transparent);
+	min-width: 160px;
+	width: 100%;
+	box-shadow: var(--shadow-md);
+	padding: var(--space-4);
+}
+
+.pay {
+	background-color: var(--persian-blue-500);
+	color: var(--gray-50);
+	border-color: var(--persian-blue-500);
+	&:hover {
+		border-color: var(--persian-blue-600);
+		background-color: var(--persian-blue-600);
+	}
+}

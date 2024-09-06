@@ -1,0 +1,30 @@
+<li class="order-item">
+	<div>*</div>
+	<p class="order-title">{{ product.title }}</p>
+	<p>$/.{{ product.price }}</p>
+
+	<div class="order-actions">
+		<div class="order-add">
+			<button
+				class="button pay increase"
+				(click)="handleAddOrder(product, 'ADD')"
+			>
+				+
+			</button>
+			<p class="order-amount">{{ quantity }}</p>
+			<button
+				class="button decrease"
+				(click)="handleAddOrder(product, 'REMOVE')"
+			>
+				-
+			</button>
+		</div>
+
+		<button
+			class="button cancel remove"
+			(click)="handleRemoveProduct(product.id)"
+		>
+			❌
+		</button>
+	</div>
+</li>

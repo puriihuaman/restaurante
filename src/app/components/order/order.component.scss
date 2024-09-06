@@ -1,0 +1,24 @@
+.cancel {
+	color: var(--red-500);
+	background-color: transparent;
+	&:hover {
+		color: var(--red-300);
+		background-color: var(--red-900);
+	}
+}
+
+.order {
+	display: flex;
+	flex-direction: column;
+	row-gap: var(--space-2);
+}
+
+.pay {
+	background-color: var(--persian-blue-500);
+	color: var(--gray-50);
+	border-color: var(--persian-blue-500);
+	&:hover {
+		border-color: var(--persian-blue-600);
+		background-color: var(--persian-blue-600);
+	}
+}

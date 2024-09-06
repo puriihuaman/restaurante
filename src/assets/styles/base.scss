@@ -1,6 +1,47 @@
 body {
-  color: var(--gray-50);
-  background-color: var(--gray-950);
-  transition: var(--transition-property-common),
-    var(--transition-easing-ease-in-out), var(--transition-duration-300);
+	color: var(--gray-50);
+	background-color: var(--gray-950);
+	transition: var(--transition-property-common),
+		var(--transition-easing-ease-in-out), var(--transition-duration-300);
+}
+
+.button {
+	position: relative;
+	overflow: hidden;
+	padding: var(--space-2) var(--space-4);
+	border-radius: var(--radii-lg);
+	cursor: pointer;
+	border: 1px solid currentColor;
+	transition: var(--transition-property-common),
+		var(--transition-easing-ease-in-out), var(--transition-duration-300);
+
+	&::after {
+		content: "";
+		display: block;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		z-index: var(--zIndices-docked);
+		width: var(--size);
+		height: var(--size);
+		border-radius: var(--radii-full);
+		background-color: var(--gray-50);
+		opacity: 0.2;
+		transform: translate(-50%, -50%);
+	}
+	&:active::after {
+		animation: button-scale 300ms linear;
+		transform-origin: center;
+	}
+}
+
+@keyframes button-scale {
+	from {
+		width: 0;
+		height: 0;
+	}
+	to {
+		width: 200px;
+		height: 200px;
+	}
 }

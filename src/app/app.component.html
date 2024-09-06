@@ -3,14 +3,23 @@
 
 	<div class="container">
 		<div class="left">
-			<section>
+			<!-- Hamburger -->
+			<app-categories-section
+				categoryName="Hamburguesas"
+				[products]="allBurgers"
+			/>
+
+			<!-- <section>
 				<h2 class="title">Hamburguesas</h2>
+
+				<app-products [allProducts]="allBurgers" />
 
 				<div class="category">
 					<ul class="category-content">
 						@for (burger of allBurgers; track burger.id) {
 						<li class="item">
-							<p>{{ burger.title }} {{ burger.price }}</p>
+							<p>{{ burger.title }}</p>
+							<p>${{ burger.price }}</p>
 							<button
 								class="button pay"
 								(click)="handleAddOrder(burger, 'ADD')"
@@ -21,16 +30,22 @@
 						}
 					</ul>
 				</div>
-			</section>
+			</section> -->
 
-			<section>
+			<!-- Salad -->
+			<app-categories-section categoryName="Ensaladas" [products]="allSalads" />
+
+			<!-- <section>
 				<h2 class="title">Ensaladas</h2>
+
+				<app-products [allProducts]="allSalads" />
 
 				<div class="category">
 					<ul class="category-content">
 						@for (salad of allSalads; track salad.id) {
 						<li class="item">
-							<p>{{ salad.title }} {{ salad.price }}</p>
+							<p>{{ salad.title }}</p>
+							<p>${{ salad.price }}</p>
 							<button class="button pay" (click)="handleAddOrder(salad, 'ADD')">
 								add
 							</button>
@@ -38,16 +53,22 @@
 						}
 					</ul>
 				</div>
-			</section>
+			</section> -->
 
-			<section>
+			<!-- Drinks -->
+			<app-categories-section categoryName="Bebidas" [products]="allDrinks" />
+
+			<!-- <section>
 				<h2 class="title">Bebidas</h2>
+
+				<app-products [allProducts]="allDrinks" />
 
 				<div class="category">
 					<ul class="category-content">
 						@for (drink of allDrinks; track drink.id) {
 						<li class="item">
-							<p>{{ drink.title }} {{ drink.price }}</p>
+							<p>{{ drink.title }}</p>
+							<p>${{ drink.price }}</p>
 							<button class="button pay" (click)="handleAddOrder(drink, 'ADD')">
 								add
 							</button>
@@ -55,15 +76,25 @@
 						}
 					</ul>
 				</div>
-			</section>
+			</section> -->
 		</div>
 
 		<div class="right">
-			<h3 class="title">Pedido</h3>
+			<!-- orders -->
+			<!-- order -->
+			<app-order />
 
+			<!-- <h3 class="title">Pedido</h3>
+
+			<app-order-list [order]="order" />
 			<ul class="order">
 				@if (order) { @for (product of order.products; track product.product.id)
 				{
+				<app-order-item
+					[product]="product.product"
+					[quantity]="product.quantity"
+				/>
+
 				<li class="order-item">
 					<div>*</div>
 					<p class="order-title">{{ product.product.title }}</p>
@@ -104,7 +135,7 @@
 			<footer>
 				<button class="button cancel">Eliminar pedido</button>
 				<button class="button pay">Imprimir</button>
-			</footer>
+			</footer> -->
 		</div>
 	</div>
 </main>

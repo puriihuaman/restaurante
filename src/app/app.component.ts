@@ -1,15 +1,24 @@
 import { Component, inject, type OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { RouterOutlet } from "@angular/router";
+import { CategoriesSectionComponent } from "@components/categories-section/categories-section.component";
+import { OrderListComponent } from "@components/order-list/order-list.component";
+import type { Order } from "./core/models/order";
 import type { Product } from "./core/models/product";
 import { OrderService } from "./core/services/order.service";
 import { ProductService } from "./core/services/product.service";
-import type { Order } from "./core/models/order";
+import { OrderComponent } from "@components/order/order.component";
 
 @Component({
 	selector: "app-root",
 	standalone: true,
-	imports: [RouterOutlet, FormsModule],
+	imports: [
+		CategoriesSectionComponent,
+		OrderListComponent,
+		OrderComponent,
+		RouterOutlet,
+		FormsModule,
+	],
 	templateUrl: "./app.component.html",
 	styleUrl: "./app.component.scss",
 })
