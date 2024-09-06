@@ -2,7 +2,9 @@
 	<h3 class="title">Pedido</h3>
 
 	<!-- order-list -->
+	@if (order) {
 	<app-order-list [order]="order" />
+	}
 	<!-- <ul class="order">
           @if (order) { @for (product of order.products; track product.product.id)
           {
@@ -50,6 +52,11 @@
 
 	<footer>
 		<button class="button cancel">Eliminar pedido</button>
-		<button class="button pay">Imprimir</button>
+		<!-- <button class="button pay" (click)="printTicket()">Imprimir</button> -->
+
+		@if (order.products.length > 0) {
+
+		<a href="/boleta" class="button pay" target="_blank">Imprimir</a>
+		}
 	</footer>
 </div>

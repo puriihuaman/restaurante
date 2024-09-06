@@ -1,0 +1,50 @@
+<div class="container">
+	<div class="ticket">
+		<header>
+			<!-- Title -->
+			<div class="ticket-header">
+				<h2>Factura Electrónica</h2>
+				<p>00002001</p>
+			</div>
+			<hr class="rule" />
+
+			<!-- User Details -->
+			<div class="author">
+				<p>Señor(es):</p>
+				<!-- ruc -->
+				<!-- fecha -->
+				<p>Fecha:</p>
+			</div>
+		</header>
+
+		<hr class="rule" />
+
+		<div class="content">
+			<!-- header -->
+			<div class="content-header">
+				<p class="title">Producto</p>
+				<p class="amount">Cant.</p>
+				<p class="price">Precio</p>
+			</div>
+			<hr class="rule" />
+
+			<!-- list -->
+			<div class="content-products">
+				@if (order) { @for (product of order.products; track product.product.id)
+				{
+				<div class="content-item">
+					<p class="title">{{ product.product.title }}</p>
+					<p class="amount">{{ product.quantity }}</p>
+					<p class="price">{{ product.product.price }}</p>
+				</div>
+				} }
+			</div>
+			<hr class="rule" />
+
+			<footer class="ticket-footer">
+				<p>Total: $/. {{ total$ | async }}</p>
+				<!-- <p>Total venta: {{ total$ | async; as total }}</p> -->
+			</footer>
+		</div>
+	</div>
+</div>
