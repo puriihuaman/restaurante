@@ -1,7 +1,10 @@
-<li class="item">
-	<p>{{ product.title }}</p>
-	<p>${{ product.price }}</p>
-	<button class="button pay" (click)="handleAddOrder(product, 'ADD')">
+<li class="product-card" [ngClass]="loadCategory(product.category)">
+	<p class="product-title">{{ product.title }}</p>
+	<p class="product-price">{{ product.price | currency }}</p>
+	<button
+		class="button product-button pay"
+		(click)="handleAddOrder(product, 'ADD')"
+	>
 		add
 	</button>
 </li>

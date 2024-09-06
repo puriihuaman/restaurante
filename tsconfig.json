@@ -25,6 +25,7 @@
 			"@services/*": ["./src/app/core/services/*"],
 			"@core/*": ["./src/app/core/*"],
 			"@data/*": ["./src/app/shared/data/*"],
+			"@type/*": ["./src/app/shared/types/*"],
 			"@shared/*": ["./src/app/shared/*"]
 		}
 	},

@@ -1,12 +1,14 @@
-.item {
-	background: var(--gray-900);
+.product-card {
+	--poster: url("/assets/images/hamburger.jpg");
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
+	row-gap: var(--space-3);
+	background: var(--gray-900);
 	border-radius: var(--radii-md);
 	text-align: center;
-	background-image: url(https://d31npzejelj8v1.cloudfront.net/media/catalog/product/b/a/base-bembos-royal.jpg);
+	background-image: var(--poster);
 	background-origin: border-box;
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -15,8 +17,25 @@
 	mask-image: radial-gradient(black 40%, transparent);
 	min-width: 160px;
 	width: 100%;
+	height: 100%;
 	box-shadow: var(--shadow-md);
 	padding: var(--space-4);
+
+	&.drink {
+		--poster: url("/assets/images/drink.jpg");
+	}
+	&.salad {
+		--poster: url("/assets/images/salad.jpg");
+	}
+	&.hamburger {
+		--poster: url("/assets/images/hamburger.jpg");
+	}
+}
+
+.product-title,
+.product-price {
+	font-family: var(--heading-font);
+	font-size: var(--fontSizes-xl);
 }
 
 .pay {

@@ -1,29 +1,49 @@
-import { HttpClient } from "@angular/common/http";
-import { inject, Injectable } from "@angular/core";
-import { allProducts } from "../../shared/data/list-product";
-import type { Product } from "../models/product";
+import { Injectable } from "@angular/core";
+
+import { productList } from "@data/list-product";
+import type { Product } from "@models/product";
+import { BehaviorSubject, map, type Observable } from "rxjs";
 
 @Injectable({
-  providedIn: "root",
+	providedIn: "root",
 })
 export class ProductService {
-  private httpClient: HttpClient = inject(HttpClient);
+	private allProducts: BehaviorSubject<Product[]> = new BehaviorSubject<
+		Product[]
+	>(productList);
+	constructor() {}
 
-  constructor() {}
+	get getAllProducts(): Observable<Product[]> {
+		return this.allProducts.asObservable();
+	}
 
-  get getAllProducts(): Product[] {
-    return allProducts;
-  }
+	get allBurgers(): Observable<Product[]> {
+		return this.allProducts.pipe(
+			map((products: Product[]): Product[] =>
+				products.filter(
+					(product: Product): boolean => product.category === "hamburguesa"
+				)
+			)
+		);
+	}
 
-  get allBurgers(): Product[] {
-    return allProducts.filter((product) => product.category === "hamburguesa");
-  }
+	get allSalads(): Observable<Product[]> {
+		return this.allProducts.pipe(
+			map((products: Product[]): Product[] =>
+				products.filter(
+					(product: Product): boolean => product.category === "ensalada"
+				)
+			)
+		);
+	}
 
-  get allSalads(): Product[] {
-    return allProducts.filter((product) => product.category === "ensalada");
-  }
-
-  get allDrinks(): Product[] {
-    return allProducts.filter((product) => product.category === "bebida");
-  }
+	get allDrinks(): Observable<Product[]> {
+		return this.allProducts.pipe(
+			map((products: Product[]): Product[] =>
+				products.filter(
+					(product: Product): boolean => product.category === "bebida"
+				)
+			)
+		);
+	}
 }

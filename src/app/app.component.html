@@ -4,79 +4,85 @@
 	<div class="container">
 		<div class="left">
 			<!-- Hamburger -->
+			@if (allBurgers$ |async; as allBurgers) {
 			<app-categories-section
 				categoryName="Hamburguesas"
 				[products]="allBurgers"
 			/>
-
 			<!-- <section>
-				<h2 class="title">Hamburguesas</h2>
-
-				<app-products [allProducts]="allBurgers" />
-
-				<div class="category">
-					<ul class="category-content">
-						@for (burger of allBurgers; track burger.id) {
-						<li class="item">
-							<p>{{ burger.title }}</p>
-							<p>${{ burger.price }}</p>
-							<button
-								class="button pay"
-								(click)="handleAddOrder(burger, 'ADD')"
-							>
-								add
-							</button>
-						</li>
-						}
-					</ul>
-				</div>
-			</section> -->
+					 <h2 class="title">Hamburguesas</h2>
+	 
+					 <app-products [allProducts]="allBurgers" />
+	 
+					 <div class="category">
+						 <ul class="category-content">
+							 @for (burger of allBurgers; track burger.id) {
+							 <li class="item">
+								 <p>{{ burger.title }}</p>
+								 <p>${{ burger.price }}</p>
+								 <button
+									 class="button pay"
+									 (click)="handleAddOrder(burger, 'ADD')"
+								 >
+									 add
+								 </button>
+							 </li>
+							 }
+						 </ul>
+					 </div>
+				 </section> -->
+			}
 
 			<!-- Salad -->
+			@if (allSalads$|async; as allSalads) {
+
 			<app-categories-section categoryName="Ensaladas" [products]="allSalads" />
 
 			<!-- <section>
-				<h2 class="title">Ensaladas</h2>
-
-				<app-products [allProducts]="allSalads" />
-
-				<div class="category">
-					<ul class="category-content">
-						@for (salad of allSalads; track salad.id) {
-						<li class="item">
-							<p>{{ salad.title }}</p>
-							<p>${{ salad.price }}</p>
-							<button class="button pay" (click)="handleAddOrder(salad, 'ADD')">
-								add
-							</button>
-						</li>
-						}
-					</ul>
-				</div>
-			</section> -->
+					 <h2 class="title">Ensaladas</h2>
+	 
+					 <app-products [allProducts]="allSalads" />
+	 
+					 <div class="category">
+						 <ul class="category-content">
+							 @for (salad of allSalads; track salad.id) {
+							 <li class="item">
+								 <p>{{ salad.title }}</p>
+								 <p>${{ salad.price }}</p>
+								 <button class="button pay" (click)="handleAddOrder(salad, 'ADD')">
+									 add
+								 </button>
+							 </li>
+							 }
+						 </ul>
+					 </div>
+				 </section> -->
+			}
 
 			<!-- Drinks -->
+			@if (allDrinks$ | async; as allDrinks) {
 			<app-categories-section categoryName="Bebidas" [products]="allDrinks" />
 
 			<!-- <section>
-				<h2 class="title">Bebidas</h2>
-
-				<app-products [allProducts]="allDrinks" />
-
-				<div class="category">
-					<ul class="category-content">
-						@for (drink of allDrinks; track drink.id) {
-						<li class="item">
-							<p>{{ drink.title }}</p>
-							<p>${{ drink.price }}</p>
-							<button class="button pay" (click)="handleAddOrder(drink, 'ADD')">
-								add
-							</button>
-						</li>
-						}
-					</ul>
-				</div>
-			</section> -->
+					 <h2 class="title">Bebidas</h2>
+	 
+					 <app-products [allProducts]="allDrinks" />
+	 
+					 <div class="category">
+						 <ul class="category-content">
+							 @for (drink of allDrinks; track drink.id) {
+							 <li class="item">
+								 <p>{{ drink.title }}</p>
+								 <p>${{ drink.price }}</p>
+								 <button class="button pay" (click)="handleAddOrder(drink, 'ADD')">
+									 add
+								 </button>
+							 </li>
+							 }
+						 </ul>
+					 </div>
+				 </section> -->
+			}
 		</div>
 
 		<div class="right">

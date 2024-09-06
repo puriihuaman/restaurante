@@ -1,12 +1,16 @@
+import { BehaviorSubject, type Observable } from "rxjs";
 import { Order } from "../models/order";
 import { Product } from "./../models/product";
 import { Injectable } from "@angular/core";
+import type { ActionUser } from "@type/action-user";
 
 @Injectable({
 	providedIn: "root",
 })
 export class OrderService {
 	private products: { product: Product; quantity: number }[] = [];
+	private calculatedTotal: BehaviorSubject<number> =
+		new BehaviorSubject<number>(0);
 	private total: number = 0;
 	private order: Order = new Order(
 		crypto.randomUUID(),
@@ -15,7 +19,7 @@ export class OrderService {
 	);
 	constructor() {}
 
-	addOrder(product: Product, amount: number, action: Action = "ADD"): void {
+	addOrder(product: Product, amount: number, action: ActionUser = "ADD"): void {
 		const existingProduct = this.products.find(
 			(prod) => prod.product.id === product.id
 		);
@@ -70,6 +74,15 @@ export class OrderService {
 		}
 	}
 
+	handleAddOrder(product: Product, action: ActionUser = "ADD") {
+		this.addOrder(product, 1, action);
+		// this.calculatedTotal.subscribe((total) => {
+		// 	console.log({ total });
+		// });
+		// this.total = this.orderService.totalToPay;
+		// this.order = this.orderService.allOrder();
+	}
+
 	allOrder(): Order {
 		return this.order;
 	}
@@ -81,6 +94,12 @@ export class OrderService {
 	get totalToPay(): number {
 		return this.total;
 	}
-}
 
-type Action = "ADD" | "REMOVE";
+	get calculatedTotalToPay(): Observable<number> {
+		return this.calculatedTotal.asObservable();
+	}
+
+	set changeTotalToPay(newTotal: number) {
+		this.calculatedTotal.next(newTotal);
+	}
+}
