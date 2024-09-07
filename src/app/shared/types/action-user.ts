@@ -1,1 +1,1 @@
-export type ActionUser = "ADD" | "REMOVE";
+export type ActionUser = "ADD" | "INCREASE" | "DECREASE" | "REMOVE";

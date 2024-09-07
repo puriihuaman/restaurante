@@ -11,11 +11,8 @@ export class ProductService {
 	private allProducts: BehaviorSubject<Product[]> = new BehaviorSubject<
 		Product[]
 	>(productList);
-	constructor() {}
 
-	get getAllProducts(): Observable<Product[]> {
-		return this.allProducts.asObservable();
-	}
+	constructor() {}
 
 	get allBurgers(): Observable<Product[]> {
 		return this.allProducts.pipe(

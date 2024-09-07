@@ -7,14 +7,14 @@
 		<div class="order-add">
 			<button
 				class="button primary increase"
-				(click)="handleAddOrder(product, 'ADD')"
+				(click)="handleAddOrder(product, 'INCREASE')"
 			>
 				<app-icon-svg iconID="plus" iconSize="xs" />
 			</button>
 			<p class="order-amount">{{ quantity }}</p>
 			<button
 				class="button default decrease"
-				(click)="handleAddOrder(product, 'REMOVE')"
+				(click)="handleAddOrder(product, 'DECREASE')"
 			>
 				<app-icon-svg iconID="minus" iconSize="xs" />
 			</button>

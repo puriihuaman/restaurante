@@ -17,21 +17,34 @@ export class OrderService {
 		this.products,
 		this.total
 	);
+
 	constructor() {}
 
 	addOrder(product: Product, amount: number, action: ActionUser = "ADD"): void {
-		const existingProduct = this.products.find(
-			(prod) => prod.product.id === product.id
+		console.log("-------------------------------------------------");
+		console.log(this.order);
+		if (this.order) {
+			console.log("Existte", this.order);
+		} else {
+			console.log("NO existe", this.order);
+		}
+		console.log("-------------------------------------------------");
+
+		// const existingProduct = this.order.products.find(
+		// 	(prod) => prod.product.id === product.id
+		// );
+		const existingProduct: ProductOrder | undefined = this.verifyExistence(
+			product.id
 		);
 
-		if (action === "ADD") {
+		if (action === "ADD" || action === "INCREASE") {
 			if (existingProduct) existingProduct.quantity += amount;
-			else this.products.push({ product, quantity: amount });
-		} else if (action === "REMOVE") {
+			else this.order.products.push({ product, quantity: amount });
+		} else if (action === "DECREASE") {
 			if (existingProduct) {
 				existingProduct.quantity -= amount;
 				if (existingProduct.quantity <= 0) {
-					this.products = this.products.filter(
+					this.order.setProducts = this.order.products.filter(
 						(prod) => prod.product.id !== product.id
 					);
 				}
@@ -40,15 +53,16 @@ export class OrderService {
 			}
 		}
 
-		this.total = this.products.reduce((acc, { product, quantity }) => {
-			return acc + product.price * quantity;
-		}, 0);
+		// calculate total
+		// this.total = this.products.reduce((acc, { product, quantity }) => {
+		// 	return acc + product.price * quantity;
+		// }, 0);
 
 		// this.allOrders.push(
 		//   new Order(crypto.randomUUID(), this.products, this.total)
 		// );
-		this.order.setProducts = [...this.products];
-		this.order.total = this.total;
+		// this.order.setProducts = this.products;
+		this.order.total = this.calculateTotal(this.order.products);
 
 		// localStorage.setItem("ORDER", JSON.stringify(this.order));
 
@@ -56,43 +70,47 @@ export class OrderService {
 		// this.total = 0;
 	}
 
-	removeProduct(productId: string) {
-		this.order.setProducts = this.order.products.filter(
-			({ product }) => product.id !== productId
-		);
+	removeProduct(productId: string): void {
+		// const existingProduct = this.order.products.find(
+		// 	({ product }: { product: Product; quantity: number }): boolean =>
+		// 		product.id === productId
+		// );
+		const existingProduct: ProductOrder | undefined =
+			this.verifyExistence(productId);
 
-		this.total = this.order.products.reduce((acc, { product, quantity }) => {
-			return acc + product.price * quantity;
-		}, 0);
-		this.order.total = this.total;
-
-		if (this.order.products.length === 0) {
-			this.total = 0;
-			this.products = [];
-			this.order.setProducts = [];
-			this.order.total = 0;
+		if (existingProduct) {
+			console.log("si existe: ", existingProduct);
+			this.order.setProducts = this.order.products.filter(
+				({ product }: ProductOrder): boolean => product.id !== productId
+			);
+			this.order.total = this.calculateTotal(this.order.products);
+		} else {
+			console.log("No existe: ", existingProduct);
 		}
 	}
 
-	handleAddOrder(product: Product, action: ActionUser = "ADD") {
-		this.addOrder(product, 1, action);
-		// this.calculatedTotal.subscribe((total) => {
-		// 	console.log({ total });
-		// });
-		// this.total = this.orderService.totalToPay;
-		// this.order = this.orderService.allOrder();
+	private verifyExistence(productId: Product["_id"]): ProductOrder | undefined {
+		return this.order.products.find(
+			({ product }: ProductOrder): boolean => product.id === productId
+		);
 	}
 
 	allOrder(): Order {
 		return this.order;
 	}
 
-	get allProducts() {
-		return this.products;
+	private calculateTotal(products: ProductOrder[]): number {
+		const total: number = products.reduce(
+			(acc: number, { product, quantity }: ProductOrder): number =>
+				acc + product.price * quantity,
+			0
+		);
+		return total;
 	}
 
 	get totalToPay(): number {
-		return this.total;
+		// return this.total;
+		return this.order.total;
 	}
 
 	get calculatedTotalToPay(): Observable<number> {
@@ -102,4 +120,9 @@ export class OrderService {
 	set changeTotalToPay(newTotal: number) {
 		this.calculatedTotal.next(newTotal);
 	}
+}
+
+interface ProductOrder {
+	product: Product;
+	quantity: number;
 }
