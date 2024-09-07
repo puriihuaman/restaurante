@@ -1,4 +1,4 @@
-<main class="">
+<main class="main">
 	<div><h1>Productos</h1></div>
 
 	<div class="container">
@@ -9,139 +9,21 @@
 				categoryName="Hamburguesas"
 				[products]="allBurgers"
 			/>
-			<!-- <section>
-					 <h2 class="title">Hamburguesas</h2>
-	 
-					 <app-products [allProducts]="allBurgers" />
-	 
-					 <div class="category">
-						 <ul class="category-content">
-							 @for (burger of allBurgers; track burger.id) {
-							 <li class="item">
-								 <p>{{ burger.title }}</p>
-								 <p>${{ burger.price }}</p>
-								 <button
-									 class="button pay"
-									 (click)="handleAddOrder(burger, 'ADD')"
-								 >
-									 add
-								 </button>
-							 </li>
-							 }
-						 </ul>
-					 </div>
-				 </section> -->
 			}
 
 			<!-- Salad -->
 			@if (allSalads$|async; as allSalads) {
-
 			<app-categories-section categoryName="Ensaladas" [products]="allSalads" />
-
-			<!-- <section>
-					 <h2 class="title">Ensaladas</h2>
-	 
-					 <app-products [allProducts]="allSalads" />
-	 
-					 <div class="category">
-						 <ul class="category-content">
-							 @for (salad of allSalads; track salad.id) {
-							 <li class="item">
-								 <p>{{ salad.title }}</p>
-								 <p>${{ salad.price }}</p>
-								 <button class="button pay" (click)="handleAddOrder(salad, 'ADD')">
-									 add
-								 </button>
-							 </li>
-							 }
-						 </ul>
-					 </div>
-				 </section> -->
 			}
 
 			<!-- Drinks -->
 			@if (allDrinks$ | async; as allDrinks) {
 			<app-categories-section categoryName="Bebidas" [products]="allDrinks" />
-
-			<!-- <section>
-					 <h2 class="title">Bebidas</h2>
-	 
-					 <app-products [allProducts]="allDrinks" />
-	 
-					 <div class="category">
-						 <ul class="category-content">
-							 @for (drink of allDrinks; track drink.id) {
-							 <li class="item">
-								 <p>{{ drink.title }}</p>
-								 <p>${{ drink.price }}</p>
-								 <button class="button pay" (click)="handleAddOrder(drink, 'ADD')">
-									 add
-								 </button>
-							 </li>
-							 }
-						 </ul>
-					 </div>
-				 </section> -->
 			}
 		</div>
 
 		<div class="right">
-			<!-- orders -->
-			<!-- order -->
 			<app-order />
-
-			<!-- <h3 class="title">Pedido</h3>
-
-			<app-order-list [order]="order" />
-			<ul class="order">
-				@if (order) { @for (product of order.products; track product.product.id)
-				{
-				<app-order-item
-					[product]="product.product"
-					[quantity]="product.quantity"
-				/>
-
-				<li class="order-item">
-					<div>*</div>
-					<p class="order-title">{{ product.product.title }}</p>
-					<p>$/.{{ product.product.price }}</p>
-
-					<div class="order-actions">
-						<div class="order-add">
-							<button
-								class="button pay increase"
-								(click)="handleAddOrder(product.product, 'ADD')"
-							>
-								+
-							</button>
-							<p class="order-amount">{{ product.quantity }}</p>
-							<button
-								class="button decrease"
-								(click)="handleAddOrder(product.product, 'REMOVE')"
-							>
-								-
-							</button>
-						</div>
-
-						<button
-							class="button cancel remove"
-							(click)="handleRemoveProduct(product.product.id)"
-						>
-							❌
-						</button>
-					</div>
-				</li>
-				} }
-			</ul>
-
-			<div>
-				<p>Total: $/. {{ total }}</p>
-			</div>
-
-			<footer>
-				<button class="button cancel">Eliminar pedido</button>
-				<button class="button pay">Imprimir</button>
-			</footer> -->
 		</div>
 	</div>
 </main>

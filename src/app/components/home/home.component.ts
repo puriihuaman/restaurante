@@ -25,6 +25,6 @@ export class HomeComponent implements OnInit {
 	ngOnInit(): void {
 		this.allBurgers$ = this.productService.allBurgers;
 		this.allSalads$ = this.productService.allSalads;
-		this.allDrinks$ = this.productService.allSalads;
+		this.allDrinks$ = this.productService.allDrinks;
 	}
 }

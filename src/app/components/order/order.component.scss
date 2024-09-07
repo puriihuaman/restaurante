@@ -1,3 +1,19 @@
+.order {
+	position: sticky;
+	top: 0;
+	display: flex;
+	flex-direction: column;
+	row-gap: var(--space-4);
+	background-color: var(--gray-900);
+}
+
+.title {
+	font-size: var(--fontSizes-2xl);
+	font-family: var(--heading-font);
+	text-align: center;
+	margin-bottom: var(--space-4);
+}
+
 .cancel {
 	color: var(--red-500);
 	background-color: transparent;
@@ -7,7 +23,7 @@
 	}
 }
 
-.order {
+.order-list {
 	display: flex;
 	flex-direction: column;
 	row-gap: var(--space-2);
@@ -21,4 +37,18 @@
 		border-color: var(--persian-blue-600);
 		background-color: var(--persian-blue-600);
 	}
+}
+
+.total {
+	font-size: var(--fontSizes-lg);
+	font-family: var(--heading-font);
+}
+
+.footer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: var(--space-4);
+	padding: var(--space-4) 0;
+	flex-wrap: wrap;
 }

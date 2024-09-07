@@ -24,8 +24,6 @@ export class ProductCardComponent implements OnInit {
 	handleAddOrder(product: Product, action: ActionUser): void {
 		this.orderService.addOrder(product, 1, action);
 		this.orderService.changeTotalToPay = this.orderService.totalToPay;
-		// this.total = this.orderService.totalToPay;
-		// this.order = this.orderService.allOrder();
 	}
 
 	public loadCategory(category: string): string {

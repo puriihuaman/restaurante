@@ -4,8 +4,6 @@
 
 .category-content {
 	--column: 1;
-	// display: flex;
-	// flex-wrap: wrap;
 	display: grid;
 	grid-template-columns: repeat(var(--column), minmax(0, 1fr));
 	gap: var(--space-4);
@@ -14,19 +12,7 @@
 		--column: 2;
 	}
 
-	@media (width >= 640px) {
-		--column: 3;
-	}
-
-	@media (width >= 768px) {
-		// --column: 4;
-	}
-
 	@media (width >= 1024px) {
-		--column: 4;
-	}
-
-	@media (width >= 1280px) {
-		--column: 5;
+		--column: 3;
 	}
 }

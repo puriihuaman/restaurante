@@ -1,4 +1,4 @@
-<li class="product-card" [ngClass]="loadCategory(product.category)">
+<div class="product-card" [ngClass]="loadCategory(product.category)">
 	<p class="product-title">{{ product.title }}</p>
 	<p class="product-price">{{ product.price | currency }}</p>
 	<button
@@ -7,4 +7,4 @@
 	>
 		add
 	</button>
-</li>
+</div>

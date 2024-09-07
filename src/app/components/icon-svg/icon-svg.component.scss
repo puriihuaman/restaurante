@@ -1,0 +1,40 @@
+.icon {
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	justify-items: center;
+	width: min-content;
+	height: min-content;
+	padding: 0;
+	outline: 2px solid transparent;
+	outline-offset: 2px;
+	appearance: none;
+	user-select: none;
+
+	& svg {
+		display: block;
+		color: currentColor;
+		user-select: none;
+		pointer-events: none;
+	}
+
+	& .xs {
+		width: var(--sizes-5);
+		height: var(--sizes-5);
+	}
+
+	& .sm {
+		width: var(--sizes-7);
+		height: var(--sizes-7);
+	}
+
+	& .md {
+		width: var(--sizes-9);
+		height: var(--sizes-9);
+	}
+
+	& .lg {
+		width: var(--sizes-12);
+		height: var(--sizes-12);
+	}
+}

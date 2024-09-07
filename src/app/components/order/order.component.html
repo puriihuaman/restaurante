@@ -1,62 +1,22 @@
-<div>
+<div class="order">
 	<h3 class="title">Pedido</h3>
 
-	<!-- order-list -->
 	@if (order) {
 	<app-order-list [order]="order" />
-	}
-	<!-- <ul class="order">
-          @if (order) { @for (product of order.products; track product.product.id)
-          {
-          <app-order-item
-            [product]="product.product"
-            [quantity]="product.quantity"
-          />
-  
-          <li class="order-item">
-            <div>*</div>
-            <p class="order-title">{{ product.product.title }}</p>
-            <p>$/.{{ product.product.price }}</p>
-  
-            <div class="order-actions">
-              <div class="order-add">
-                <button
-                  class="button pay increase"
-                  (click)="handleAddOrder(product.product, 'ADD')"
-                >
-                  +
-                </button>
-                <p class="order-amount">{{ product.quantity }}</p>
-                <button
-                  class="button decrease"
-                  (click)="handleAddOrder(product.product, 'REMOVE')"
-                >
-                  -
-                </button>
-              </div>
-  
-              <button
-                class="button cancel remove"
-                (click)="handleRemoveProduct(product.product.id)"
-              >
-                ❌
-              </button>
-            </div>
-          </li>
-          } }
-        </ul> -->
 
-	<div>
+	<div class="total">
 		<p>Total: $/. {{ total$ | async }}</p>
 	</div>
 
-	<footer>
+	<footer class="footer">
 		<button class="button cancel">Eliminar pedido</button>
-		<!-- <button class="button pay" (click)="printTicket()">Imprimir</button> -->
 
 		@if (order.products.length > 0) {
 
 		<a href="/boleta" class="button pay" target="_blank">Imprimir</a>
 		}
 	</footer>
+	} @else {
+	<div>No hay pedidos</div>
+	}
 </div>

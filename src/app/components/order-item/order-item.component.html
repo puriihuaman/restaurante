@@ -6,25 +6,25 @@
 	<div class="order-actions">
 		<div class="order-add">
 			<button
-				class="button pay increase"
+				class="button primary increase"
 				(click)="handleAddOrder(product, 'ADD')"
 			>
-				+
+				<app-icon-svg iconID="plus" iconSize="xs" />
 			</button>
 			<p class="order-amount">{{ quantity }}</p>
 			<button
-				class="button decrease"
+				class="button default decrease"
 				(click)="handleAddOrder(product, 'REMOVE')"
 			>
-				-
+				<app-icon-svg iconID="minus" iconSize="xs" />
 			</button>
 		</div>
 
 		<button
-			class="button cancel remove"
+			class="button danger remove"
 			(click)="handleRemoveProduct(product.id)"
 		>
-			❌
+			<app-icon-svg iconID="x" iconSize="xs" />
 		</button>
 	</div>
 </li>

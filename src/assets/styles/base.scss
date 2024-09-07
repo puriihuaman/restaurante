@@ -7,6 +7,11 @@ body {
 
 .button {
 	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	text-wrap: nowrap;
 	overflow: hidden;
 	padding: var(--space-2) var(--space-4);
 	border-radius: var(--radii-lg);
@@ -14,6 +19,34 @@ body {
 	border: 1px solid currentColor;
 	transition: var(--transition-property-common),
 		var(--transition-easing-ease-in-out), var(--transition-duration-300);
+
+	&.default {
+		color: var(--gray-500);
+		background-color: transparent;
+		&:hover {
+			color: var(--gray-50);
+		}
+	}
+
+	&.primary {
+		--color-bg: var(--persian-blue-500);
+		color: var(--persian-blue-50);
+		background-color: var(--color-bg);
+		border-color: var(--color-bg);
+		&:hover {
+			--color-bg: var(--persian-blue-600);
+		}
+	}
+
+	&.danger {
+		color: var(--red-500);
+		background-color: transparent;
+		&:hover {
+			color: var(--red-50);
+			border-color: var(--red-500);
+			background-color: var(--red-500);
+		}
+	}
 
 	&::after {
 		content: "";
