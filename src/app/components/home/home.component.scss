@@ -23,12 +23,22 @@
 }
 
 .left {
-	display: flex;
-	flex-direction: column;
-	row-gap: var(--space-4);
-	padding: var(--space-4);
+}
+.title {
+	font-size: var(--fontSizes-3xl);
+	font-family: var(--heading-font);
+	margin-bottom: var(--space-4);
+	text-align: center;
 }
 
 .right {
+	background-color: var(--gray-900);
 	padding: var(--space-4);
+	padding-bottom: 0;
+}
+
+.categories {
+	display: flex;
+	flex-direction: column;
+	row-gap: var(--space-4);
 }

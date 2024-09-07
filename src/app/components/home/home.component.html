@@ -1,25 +1,30 @@
 <main class="main">
-	<div><h1>Productos</h1></div>
-
 	<div class="container">
 		<div class="left">
-			<!-- Hamburger -->
-			@if (allBurgers$ |async; as allBurgers) {
-			<app-categories-section
-				categoryName="Hamburguesas"
-				[products]="allBurgers"
-			/>
-			}
+			<div><h1 class="title">Productos</h1></div>
 
-			<!-- Salad -->
-			@if (allSalads$|async; as allSalads) {
-			<app-categories-section categoryName="Ensaladas" [products]="allSalads" />
-			}
+			<div class="categories">
+				<!-- Hamburger -->
+				@if (allBurgers$ |async; as allBurgers) {
+				<app-categories-section
+					categoryName="Hamburguesas"
+					[products]="allBurgers"
+				/>
+				}
 
-			<!-- Drinks -->
-			@if (allDrinks$ | async; as allDrinks) {
-			<app-categories-section categoryName="Bebidas" [products]="allDrinks" />
-			}
+				<!-- Salad -->
+				@if (allSalads$|async; as allSalads) {
+				<app-categories-section
+					categoryName="Ensaladas"
+					[products]="allSalads"
+				/>
+				}
+
+				<!-- Drinks -->
+				@if (allDrinks$ | async; as allDrinks) {
+				<app-categories-section categoryName="Bebidas" [products]="allDrinks" />
+				}
+			</div>
 		</div>
 
 		<div class="right">
