@@ -1,10 +1,11 @@
 <div class="container">
+	@if (currentOrder) {
 	<div class="ticket">
 		<header>
 			<!-- Title -->
 			<div class="ticket-header">
 				<h2>Factura Electrónica</h2>
-				<p>00002001</p>
+				<p>{{ currentOrder.code }}</p>
 			</div>
 			<hr class="rule" />
 
@@ -30,21 +31,24 @@
 
 			<!-- list -->
 			<div class="content-products">
-				@if (order) { @for (product of order.products; track product.product.id)
-				{
+				<!-- @for (product of products; track product.product.id) {
 				<div class="content-item">
 					<p class="title">{{ product.product.title }}</p>
 					<p class="amount">{{ product.quantity }}</p>
 					<p class="price">{{ product.product.price }}</p>
 				</div>
-				} }
+				} -->
 			</div>
 			<hr class="rule" />
 
 			<footer class="ticket-footer">
-				<p>Total: $/. {{ total$ | async }}</p>
-				<!-- <p>Total venta: {{ total$ | async; as total }}</p> -->
+				<p>Total: $/. {{ currentOrder.total }}</p>
 			</footer>
+
+			{{ currentOrder | json }}
 		</div>
 	</div>
+	} @else {
+	<div>No hay pedido</div>
+	}
 </div>

@@ -1,6 +1,6 @@
 .order {
 	position: sticky;
-	top: 0;
+	top: var(--space-4);
 	display: flex;
 	flex-direction: column;
 	row-gap: var(--space-4);

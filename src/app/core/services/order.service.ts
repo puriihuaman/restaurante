@@ -8,95 +8,76 @@ import type { ActionUser } from "@type/action-user";
 	providedIn: "root",
 })
 export class OrderService {
-	private products: { product: Product; quantity: number }[] = [];
 	private calculatedTotal: BehaviorSubject<number> =
 		new BehaviorSubject<number>(0);
-	private total: number = 0;
-	private order: Order = new Order(
-		crypto.randomUUID(),
-		this.products,
-		this.total
-	);
+	private currentOrder: Order = new Order(crypto.randomUUID(), [], 0);
 
-	constructor() {}
+	private storageName: string = "PURI_ORDERS";
+
+	constructor() {
+		this.loadFromStorage();
+	}
 
 	addOrder(product: Product, amount: number, action: ActionUser = "ADD"): void {
-		console.log("-------------------------------------------------");
-		console.log(this.order);
-		if (this.order) {
-			console.log("Existte", this.order);
-		} else {
-			console.log("NO existe", this.order);
-		}
-		console.log("-------------------------------------------------");
-
-		// const existingProduct = this.order.products.find(
-		// 	(prod) => prod.product.id === product.id
-		// );
 		const existingProduct: ProductOrder | undefined = this.verifyExistence(
 			product.id
 		);
 
 		if (action === "ADD" || action === "INCREASE") {
 			if (existingProduct) existingProduct.quantity += amount;
-			else this.order.products.push({ product, quantity: amount });
-		} else if (action === "DECREASE") {
-			if (existingProduct) {
-				existingProduct.quantity -= amount;
-				if (existingProduct.quantity <= 0) {
-					this.order.setProducts = this.order.products.filter(
-						(prod) => prod.product.id !== product.id
-					);
-				}
-			} else {
-				console.warn(`El producto ${product.title} no existe en el pedido.`);
-			}
+			else this.currentOrder.products.push({ product, quantity: amount });
+
+			this.updateTotal();
+			this.saveStorage(this.currentOrder);
 		}
 
-		// calculate total
-		// this.total = this.products.reduce((acc, { product, quantity }) => {
-		// 	return acc + product.price * quantity;
-		// }, 0);
-
-		// this.allOrders.push(
-		//   new Order(crypto.randomUUID(), this.products, this.total)
-		// );
-		// this.order.setProducts = this.products;
-		this.order.total = this.calculateTotal(this.order.products);
-
-		// localStorage.setItem("ORDER", JSON.stringify(this.order));
-
-		// this.products = [];
-		// this.total = 0;
+		console.log(this.currentOrder);
 	}
 
-	removeProduct(productId: string): void {
-		// const existingProduct = this.order.products.find(
-		// 	({ product }: { product: Product; quantity: number }): boolean =>
-		// 		product.id === productId
-		// );
-		const existingProduct: ProductOrder | undefined =
-			this.verifyExistence(productId);
+	removeProduct(
+		productId: string,
+		amount: number = 1,
+		action: ActionUser
+	): void {
+		if (this.currentOrder) {
+			const existingProduct: ProductOrder | undefined =
+				this.verifyExistence(productId);
 
-		if (existingProduct) {
-			console.log("si existe: ", existingProduct);
-			this.order.setProducts = this.order.products.filter(
-				({ product }: ProductOrder): boolean => product.id !== productId
-			);
-			this.order.total = this.calculateTotal(this.order.products);
-		} else {
-			console.log("No existe: ", existingProduct);
+			if (existingProduct) {
+				if (action === "DECREASE") {
+					existingProduct.quantity -= amount;
+					if (existingProduct.quantity <= 0) {
+						this.currentOrder.setProducts = this.filterProducts(productId);
+					}
+				} else if (action === "REMOVE") {
+					this.currentOrder.setProducts = this.filterProducts(productId);
+				}
+				this.updateTotal();
+				this.upgradeStorage();
+			}
 		}
+	}
+
+	deleteOrder(): void {
+		console.log(this.currentOrder);
+	}
+
+	getCurrentOrder(): Order {
+		return this.currentOrder;
 	}
 
 	private verifyExistence(productId: Product["_id"]): ProductOrder | undefined {
-		return this.order.products.find(
+		return this.currentOrder?.products.find(
 			({ product }: ProductOrder): boolean => product.id === productId
 		);
 	}
 
-	allOrder(): Order {
-		return this.order;
+	private filterProducts(productId: Product["_id"]): ProductOrder[] {
+		return (
+			this.currentOrder?.products.filter(
+				({ product }: ProductOrder): boolean => product.id !== productId
+			) || []
+		);
 	}
 
 	private calculateTotal(products: ProductOrder[]): number {
@@ -108,17 +89,34 @@ export class OrderService {
 		return total;
 	}
 
-	get totalToPay(): number {
-		// return this.total;
-		return this.order.total;
+	private updateTotal(): void {
+		if (this.currentOrder) {
+			this.currentOrder.total = this.calculateTotal(this.currentOrder.products);
+			this.calculatedTotal.next(this.currentOrder.total);
+		}
 	}
 
 	get calculatedTotalToPay(): Observable<number> {
 		return this.calculatedTotal.asObservable();
 	}
 
-	set changeTotalToPay(newTotal: number) {
-		this.calculatedTotal.next(newTotal);
+	public loadFromStorage(): void {
+		const currentOrder: string | null = localStorage.getItem(this.storageName);
+		if (currentOrder) this.currentOrder = { ...JSON.parse(currentOrder) };
+	}
+
+	private saveStorage(currentOrder: Order): void {
+		localStorage.setItem(this.storageName, JSON.stringify(currentOrder));
+	}
+
+	private upgradeStorage(): void {
+		const currentOrder: string | null = localStorage.getItem(this.storageName);
+		if (currentOrder) {
+			localStorage.setItem(this.storageName, JSON.stringify(this.currentOrder));
+			if (this.currentOrder.products.length === 0) {
+				localStorage.clear();
+			}
+		}
 	}
 }
 

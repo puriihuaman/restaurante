@@ -5,14 +5,17 @@
 	<app-order-list [order]="order" />
 
 	<div class="total">
-		<p>Total: $/. {{ total$ | async }}</p>
+		<p>
+			Total: <strong>{{ total$ | async | currency }}</strong>
+		</p>
 	</div>
 
 	<footer class="footer">
-		<button class="button cancel">Eliminar pedido</button>
+		<button class="button cancel" (click)="deleteOrder()">
+			Eliminar pedido
+		</button>
 
 		@if (order.products.length > 0) {
-
 		<a href="/boleta" class="button pay" target="_blank">Imprimir</a>
 		}
 	</footer>

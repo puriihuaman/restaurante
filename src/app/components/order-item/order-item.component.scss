@@ -12,13 +12,17 @@
 	text-wrap: nowrap;
 }
 
+.order-price {
+	margin-left: auto;
+}
+
 .order-actions {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	column-gap: var(--space-4);
 	text-align: center;
-	margin-left: auto;
+	// margin-left: auto;
 }
 .order-amount {
 	padding: var(--space-1) var(--space-2);

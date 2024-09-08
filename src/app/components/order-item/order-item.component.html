@@ -1,7 +1,7 @@
 <li class="order-item">
-	<div>*</div>
+	<div>🎯</div>
 	<p class="order-title">{{ product.title }}</p>
-	<p>$/.{{ product.price }}</p>
+	<p class="order-price">$/.{{ product.price }}</p>
 
 	<div class="order-actions">
 		<div class="order-add">
@@ -14,7 +14,7 @@
 			<p class="order-amount">{{ quantity }}</p>
 			<button
 				class="button default decrease"
-				(click)="handleAddOrder(product, 'DECREASE')"
+				(click)="handleRemoveProduct(product.id, 'DECREASE')"
 			>
 				<app-icon-svg iconID="minus" iconSize="xs" />
 			</button>
@@ -22,7 +22,7 @@
 
 		<button
 			class="button danger remove"
-			(click)="handleRemoveProduct(product.id)"
+			(click)="handleRemoveProduct(product.id, 'REMOVE')"
 		>
 			<app-icon-svg iconID="x" iconSize="xs" />
 		</button>

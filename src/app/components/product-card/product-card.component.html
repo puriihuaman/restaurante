@@ -1,10 +1,7 @@
 <div class="product-card" [ngClass]="loadCategory(product.category)">
 	<p class="product-title">{{ product.title }}</p>
 	<p class="product-price">{{ product.price | currency }}</p>
-	<button
-		class="button product-button pay"
-		(click)="handleAddOrder(product, 'ADD')"
-	>
-		add
+	<button class="button primary add" (click)="handleAddOrder(product, 'ADD')">
+		<app-icon-svg iconID="cart" iconSize="xs" />
 	</button>
 </div>

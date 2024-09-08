@@ -22,19 +22,21 @@
 	}
 }
 
-.left {
+.left,
+.right {
+	padding: var(--space-4);
+	padding-bottom: 0;
 }
+
+.right {
+	background-color: var(--gray-900);
+}
+
 .title {
 	font-size: var(--fontSizes-3xl);
 	font-family: var(--heading-font);
 	margin-bottom: var(--space-4);
 	text-align: center;
-}
-
-.right {
-	background-color: var(--gray-900);
-	padding: var(--space-4);
-	padding-bottom: 0;
 }
 
 .categories {

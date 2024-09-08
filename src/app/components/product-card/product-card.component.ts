@@ -1,21 +1,20 @@
 import { CurrencyPipe, NgClass } from "@angular/common";
 import { Component, inject, Input, type OnInit } from "@angular/core";
+import { IconSVGComponent } from "@components/icon-svg/icon-svg.component";
 import type { Product } from "@models/product";
 import { OrderService } from "@services/order.service";
 import type { ActionUser } from "@type/action-user";
-import type { Observable } from "rxjs";
 
 @Component({
 	selector: "app-product-card",
 	standalone: true,
-	imports: [CurrencyPipe, NgClass],
+	imports: [CurrencyPipe, NgClass, IconSVGComponent],
 	templateUrl: "./product-card.component.html",
 	styleUrl: "./product-card.component.scss",
 })
 export class ProductCardComponent implements OnInit {
 	@Input() product!: Product;
 	private orderService: OrderService = inject(OrderService);
-	public total$!: Observable<number>;
 
 	constructor() {}
 
@@ -23,7 +22,6 @@ export class ProductCardComponent implements OnInit {
 
 	handleAddOrder(product: Product, action: ActionUser): void {
 		this.orderService.addOrder(product, 1, action);
-		this.orderService.changeTotalToPay = this.orderService.totalToPay;
 	}
 
 	public loadCategory(category: string): string {
