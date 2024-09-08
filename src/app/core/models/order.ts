@@ -1,37 +1,33 @@
-import type { Product } from "./product";
+import type { ProductOrder } from "@interfaces/product-order";
 
 export class Order {
-  private _code: string;
-  private _products: { product: Product; quantity: number }[];
-  private _total: number;
+	private _code: string;
+	private _products: ProductOrder[];
+	private _total: number;
 
-  constructor(
-    code: string,
-    products: { product: Product; quantity: number }[],
-    total: number
-  ) {
-    this._code = code;
-    this._products = products;
-    this._total = total;
-  }
+	constructor(code: string, products: ProductOrder[], total: number) {
+		this._code = code;
+		this._products = products;
+		this._total = total;
+	}
 
-  get code(): string {
-    return this._code;
-  }
+	get code(): string {
+		return this._code;
+	}
 
-  get products(): { product: Product; quantity: number }[] {
-    return this._products;
-  }
+	get products(): ProductOrder[] {
+		return this._products;
+	}
 
-  set setProducts(_products: { product: Product; quantity: number }[]) {
-    this._products = _products;
-  }
+	set setProducts(_products: ProductOrder[]) {
+		this._products = _products;
+	}
 
-  get total(): number {
-    return this._total;
-  }
+	get total(): number {
+		return this._total;
+	}
 
-  set total(_total: number) {
-    this._total = _total;
-  }
+	set total(_total: number) {
+		this._total = _total;
+	}
 }

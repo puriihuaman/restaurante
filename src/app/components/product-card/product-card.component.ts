@@ -4,6 +4,7 @@ import { IconSVGComponent } from "@components/icon-svg/icon-svg.component";
 import type { Product } from "@models/product";
 import { OrderService } from "@services/order.service";
 import type { ActionUser } from "@type/action-user";
+import type { Category } from "@type/category";
 
 @Component({
 	selector: "app-product-card",
@@ -24,8 +25,8 @@ export class ProductCardComponent implements OnInit {
 		this.orderService.addOrder(product, 1, action);
 	}
 
-	public loadCategory(category: string): string {
-		let poster: string = "hamburger";
+	public loadCategory(category: Category): string {
+		let poster: string = "hamburguesa";
 		if (category) {
 			switch (category) {
 				case "bebida":
@@ -34,7 +35,7 @@ export class ProductCardComponent implements OnInit {
 				case "ensalada":
 					poster = "salad";
 					break;
-				case "hamburgesa":
+				case "hamburguesa":
 					poster = "hamburger";
 					break;
 			}

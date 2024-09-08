@@ -1,29 +1,31 @@
 import { BehaviorSubject, type Observable } from "rxjs";
-import { Order } from "../models/order";
-import { Product } from "./../models/product";
+
 import { Injectable } from "@angular/core";
 import type { ActionUser } from "@type/action-user";
+import type { ProductOrder } from "@interfaces/product-order";
+import { environment } from "@environment/environment.development";
+import { Order } from "@models/order";
+import type { Product } from "@models/product";
 
 @Injectable({
 	providedIn: "root",
 })
 export class OrderService {
+	private storageName: string = environment.storageName;
 	private calculatedTotal: BehaviorSubject<number> =
 		new BehaviorSubject<number>(0);
 	private currentOrder: Order = new Order(crypto.randomUUID(), [], 0);
-
-	private storageName: string = "PURI_ORDERS";
 
 	constructor() {
 		this.loadFromStorage();
 	}
 
 	addOrder(product: Product, amount: number, action: ActionUser = "ADD"): void {
-		const existingProduct: ProductOrder | undefined = this.verifyExistence(
-			product.id
-		);
-
 		if (action === "ADD" || action === "INCREASE") {
+			const existingProduct: ProductOrder | undefined = this.verifyExistence(
+				product.id
+			);
+
 			if (existingProduct) existingProduct.quantity += amount;
 			else this.currentOrder.products.push({ product, quantity: amount });
 
@@ -118,9 +120,4 @@ export class OrderService {
 			}
 		}
 	}
-}
-
-interface ProductOrder {
-	product: Product;
-	quantity: number;
 }

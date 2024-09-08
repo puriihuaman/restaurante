@@ -23,10 +23,12 @@
 			"@components/*": ["./src/app/components/*"],
 			"@models/*": ["./src/app/core/models/*"],
 			"@services/*": ["./src/app/core/services/*"],
+			"@interfaces/*": ["./src/app/core/interfaces/*"],
 			"@core/*": ["./src/app/core/*"],
 			"@data/*": ["./src/app/shared/data/*"],
 			"@type/*": ["./src/app/shared/types/*"],
-			"@shared/*": ["./src/app/shared/*"]
+			"@shared/*": ["./src/app/shared/*"],
+			"@environment/*": ["./src/environments/*"]
 		}
 	},
 	"angularCompilerOptions": {
