@@ -61,19 +61,11 @@ export class OrderService {
 		action: ActionUser = "ADD"
 	): void {
 		if (action === "ADD" || action === "INCREASE") {
-			// const existingOrder: Order | undefined = this.orders.find(
-			// 	(order: Order): boolean => order.code === currentOrder.code
-			// );
 			const existingOrder: Order | undefined = this.verifyExistenceOfTheOrder(
 				currentOrder.code
 			);
 
 			if (existingOrder) {
-				// const existingProduct: ProductOrder | undefined =
-				// 	currentOrder.products.find(
-				// 		({ product }: ProductOrder): boolean =>
-				// 			product.id === currentProduct.id
-				// 	);
 				const existingProduct: ProductOrder | undefined =
 					this.verifyProductExistence(currentOrder, currentProduct.id);
 
@@ -104,28 +96,53 @@ export class OrderService {
 	}
 
 	removeProduct(
+		currentOrder: Order,
 		productId: string,
 		amount: number = 1,
 		action: ActionUser
 	): void {
-		if (this.currentOrder) {
-			// const existingProduct: ProductOrder | undefined =
-			// 	this.verifyExistence(productId);
-			// if (existingProduct) {
-			// 	if (action === "DECREASE") {
-			// 		existingProduct.quantity -= amount;
-			// 		if (existingProduct.quantity <= 0) {
-			// 			this.currentOrder.setProducts = this.filterProducts(productId);
-			// 		}
-			// 	} else if (action === "REMOVE") {
-			// 		this.currentOrder.setProducts = this.filterProducts(productId);
-			// 	}
-			// 	this.updateTotal();
-			// 	// this.upgradeStorage();
-			// }
+		const existingOrder: Order | undefined = this.verifyExistenceOfTheOrder(
+			currentOrder.code
+		);
+		if (existingOrder) {
+			const existingProduct: ProductOrder | undefined =
+				this.verifyProductExistence(currentOrder, productId);
+			if (existingProduct) {
+				if (action === "DECREASE") {
+					existingProduct.quantity -= amount;
+					if (existingProduct.quantity <= 0) {
+						currentOrder.setProducts = this.filterProducts(
+							currentOrder,
+							productId
+						);
+					}
+				} else if (action === "REMOVE") {
+					currentOrder.setProducts = this.filterProducts(
+						currentOrder,
+						productId
+					);
+				}
+				this.updateTotal(currentOrder);
+				// this.upgradeStorage();
+			}
 		}
+		// const existingProduct: ProductOrder | undefined =
+		// 	this.verifyExistence(productId);
+		// if (existingProduct) {
+		// 	if (action === "DECREASE") {
+		// 		existingProduct.quantity -= amount;
+		// 		if (existingProduct.quantity <= 0) {
+		// 			this.currentOrder.setProducts = this.filterProducts(productId);
+		// 		}
+		// 	} else if (action === "REMOVE") {
+		// 		this.currentOrder.setProducts = this.filterProducts(productId);
+		// 	}
+		// 	this.updateTotal();
+		// 	// this.upgradeStorage();
+		// }
 	}
 
+	// ✅
 	deleteOrder(currentOrder: Order): void {
 		const existingOrder: Order | undefined = this.verifyExistenceOfTheOrder(
 			currentOrder.code
@@ -133,6 +150,7 @@ export class OrderService {
 
 		if (existingOrder) {
 			this.filterOrders(currentOrder.code);
+			this.orderSubject.next(null);
 		}
 	}
 
@@ -149,11 +167,12 @@ export class OrderService {
 		);
 	}
 
+	// ✅
 	private filterOrders(orderCode: Order["_code"]): void {
-		const newOrders: Order[] =
-			this.orders.filter((order: Order): boolean => order.code !== orderCode) ||
-			[];
-		this.setOrders([...newOrders]);
+		this.orders = this.orders.filter(
+			(order: Order): boolean => order.code !== orderCode
+		);
+		this.setOrders(this.orders);
 	}
 
 	// ✅
@@ -167,9 +186,12 @@ export class OrderService {
 	}
 
 	// ✅ -> Revisar
-	private filterProducts(productId: Product["_id"]): ProductOrder[] {
+	private filterProducts(
+		currentOrder: Order,
+		productId: Product["_id"]
+	): ProductOrder[] {
 		return (
-			this.currentOrder?.products.filter(
+			currentOrder?.products.filter(
 				({ product }: ProductOrder): boolean => product.id !== productId
 			) || []
 		);

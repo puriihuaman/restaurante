@@ -38,7 +38,6 @@ export class ProductCardComponent implements OnInit {
 
 		console.log("Puede agregar");
 		this.orderService.addProductToOrder(order, product, 1, action);
-		// this.orderService.addOrder(product, 1, action);
 	}
 
 	public loadCategory(category: Category): string {

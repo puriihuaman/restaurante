@@ -4,17 +4,20 @@
 	<p class="order-price">$/.{{ product.price }}</p>
 
 	<div class="order-actions">
+		@if (order$|async; as order) {
 		<div class="order-add">
 			<button
 				class="button primary increase"
-				(click)="handleAddOrder(product, 'INCREASE')"
+				(click)="handleAddOrder(order, product, 'INCREASE')"
 			>
 				<app-icon-svg iconID="plus" iconSize="xs" />
 			</button>
+
 			<p class="order-amount">{{ quantity }}</p>
+
 			<button
 				class="button default decrease"
-				(click)="handleRemoveProduct(product.id, 'DECREASE')"
+				(click)="handleRemoveProduct(order, product.id, 'DECREASE')"
 			>
 				<app-icon-svg iconID="minus" iconSize="xs" />
 			</button>
@@ -22,9 +25,10 @@
 
 		<button
 			class="button danger remove"
-			(click)="handleRemoveProduct(product.id, 'REMOVE')"
+			(click)="handleRemoveProduct(order, product.id, 'REMOVE')"
 		>
 			<app-icon-svg iconID="x" iconSize="xs" />
 		</button>
+		}
 	</div>
 </li>
