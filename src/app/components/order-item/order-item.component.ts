@@ -20,7 +20,7 @@ export class OrderItemComponent implements OnInit {
 	ngOnInit(): void {}
 
 	handleAddOrder(product: Product, action: ActionUser): void {
-		this.orderService.addOrder(product, 1, action);
+		// this.orderService.addOrder(product, 1, action); // cambiar
 	}
 
 	handleRemoveProduct(productId: string, action: ActionUser): void {

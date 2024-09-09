@@ -11,7 +11,6 @@
 	font-size: var(--fontSizes-2xl);
 	font-family: var(--heading-font);
 	text-align: center;
-	margin-bottom: var(--space-4);
 }
 
 .cancel {
@@ -51,4 +50,11 @@
 	gap: var(--space-4);
 	padding: var(--space-4) 0;
 	flex-wrap: wrap;
+}
+
+.list {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--space-2);
+	padding: var(--space-4) 0;
 }

@@ -1,25 +1,77 @@
+<div>
+	<form action="#" (submit)="createNewOrder()">
+		<h3>Nuevo pedido</h3>
+		<label for="client">Cliente</label>
+		<input
+			type="text"
+			name="client"
+			id="client"
+			placeholder="Escribe el nombre del cliente"
+			autocomplete="off"
+			[(ngModel)]="client"
+		/>
+
+		<button type="submit" class="button primary">Crear</button>
+	</form>
+</div>
+
+<hr />
+
 <div class="order">
-	<h3 class="title">Pedido</h3>
+	<h3 class="title">Pedidos</h3>
 
-	@if (order) {
-	<app-order-list [order]="order" />
-
-	<div class="total">
-		<p>
-			Total: <strong>{{ total$ | async | currency }}</strong>
-		</p>
-	</div>
-
-	<footer class="footer">
-		<button class="button cancel" (click)="deleteOrder()">
-			Eliminar pedido
+	@if (orders$ | async; as orders) {
+	<div class="list">
+		@if(orders.length !== 0) { @for (order of orders; track order.code) {
+		<button
+			class="button default"
+			[id]="order.code"
+			(click)="selectOrder(order)"
+		>
+			{{ order.client }}
 		</button>
-
-		@if (order.products.length > 0) {
-		<a href="/boleta" class="button pay" target="_blank">Imprimir</a>
+		} } @else {
+		<p>NO hay pedidos</p>
 		}
-	</footer>
+	</div>
 	} @else {
-	<div>No hay pedidos</div>
+	<p>No hay pedidos o sucedio un error</p>
 	}
+</div>
+
+<hr />
+
+@if (order$ | async; as order) {
+<div>
+	<h4 class="title">Detalles del pedido</h4>
+
+	<div>
+		<h4>Cliente - {{ order.client }}</h4>
+
+		@if (order.products.length !==0) {
+		<app-order-list [order]="order" />
+
+		<div class="total">
+			<p>
+				Total: <strong>{{ order.total | currency }}</strong>
+			</p>
+		</div>
+		} @else {
+		<div>El pedido esta vacío</div>
+		}
+
+		<footer class="footer">
+			<button class="button cancel" (click)="deleteOrder(order)">
+				Eliminar pedido
+			</button>
+			@if (order.products.length!==0) {
+			<a href="/boleta" class="button pay" target="_blank">Imprimir</a>
+			}
+		</footer>
+	</div>
+</div>
+}
+
+<div style="margin-top: 4rem">
+	{{ order$ | async | json }}
 </div>

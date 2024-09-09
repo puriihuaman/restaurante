@@ -1,28 +1,44 @@
-import { CurrencyPipe, NgClass } from "@angular/common";
+import { AsyncPipe, CurrencyPipe, JsonPipe, NgClass } from "@angular/common";
 import { Component, inject, Input, type OnInit } from "@angular/core";
 import { IconSVGComponent } from "@components/icon-svg/icon-svg.component";
+import type { Order } from "@models/order";
 import type { Product } from "@models/product";
 import { OrderService } from "@services/order.service";
 import type { ActionUser } from "@type/action-user";
 import type { Category } from "@type/category";
+import type { Observable } from "rxjs";
 
 @Component({
 	selector: "app-product-card",
 	standalone: true,
-	imports: [CurrencyPipe, NgClass, IconSVGComponent],
+	imports: [AsyncPipe, JsonPipe, CurrencyPipe, NgClass, IconSVGComponent],
 	templateUrl: "./product-card.component.html",
 	styleUrl: "./product-card.component.scss",
 })
 export class ProductCardComponent implements OnInit {
 	@Input() product!: Product;
 	private orderService: OrderService = inject(OrderService);
+	public order$!: Observable<Order | null>;
 
 	constructor() {}
 
-	ngOnInit(): void {}
+	ngOnInit(): void {
+		this.order$ = this.orderService.getOrderSubject();
+	}
 
-	handleAddOrder(product: Product, action: ActionUser): void {
-		this.orderService.addOrder(product, 1, action);
+	handleAddOrder(
+		order: Order | null,
+		product: Product,
+		action: ActionUser
+	): void {
+		if (order === null) {
+			console.log("Seleccione un pedido");
+			return;
+		}
+
+		console.log("Puede agregar");
+		this.orderService.addProductToOrder(order, product, 1, action);
+		// this.orderService.addOrder(product, 1, action);
 	}
 
 	public loadCategory(category: Category): string {
