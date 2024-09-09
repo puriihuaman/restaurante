@@ -1,10 +1,14 @@
-.order {
+.right-content {
 	position: sticky;
 	top: var(--space-4);
+}
+
+.order {
 	display: flex;
 	flex-direction: column;
 	row-gap: var(--space-4);
 	background-color: var(--gray-900);
+	margin: var(--space-4) 0;
 }
 
 .title {
@@ -56,5 +60,60 @@
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
 	gap: var(--space-2);
-	padding: var(--space-4) 0;
+	padding-top: var(--space-4);
+	max-height: var(--sizes-48);
+	overflow-y: auto;
+}
+
+.form--container {
+	margin-bottom: var(--space-4);
+}
+
+.form {
+}
+.form--title {
+	font-size: var(--fontSizes-xl);
+	margin-bottom: var(--space-2);
+}
+
+.form--label {
+	font-size: var(--fontSizes-sm);
+	margin-bottom: var(--space-2);
+}
+
+.form--input {
+	padding: var(--space-2-5) var(--space-4);
+	width: var(--sizes-full);
+	background: var(--gray-800);
+	border-radius: var(--radii-lg);
+	margin-bottom: var(--space-4);
+	&::placeholder {
+		font-size: var(--fontSizes-sm);
+	}
+}
+
+.form--submit {
+}
+
+.details {
+	margin-top: var(--space-4);
+}
+
+.details--content {
+}
+
+.title {
+	font-size: var(--fontSizes-xl);
+	margin-bottom: var(--space-2);
+	font-family: var(--heading-font);
+	text-align: center;
+}
+
+.rule {
+	height: 2px;
+	background: var(--gray-800);
+}
+
+.active {
+	background: red;
 }

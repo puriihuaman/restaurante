@@ -1,52 +1,52 @@
-<div>
-	<form action="#" (submit)="createNewOrder()">
-		<h3>Nuevo pedido</h3>
-		<label for="client">Cliente</label>
-		<input
-			type="text"
-			name="client"
-			id="client"
-			placeholder="Escribe el nombre del cliente"
-			autocomplete="off"
-			[(ngModel)]="client"
-		/>
+<div class="right-content">
+	<div>
+		<form action="#" (submit)="createNewOrder()" class="form">
+			<h3 class="form--title">Nuevo pedido</h3>
+			<label for="client" class="form--label">Cliente</label>
+			<input
+				type="text"
+				name="client"
+				id="client"
+				placeholder="Escribe el nombre del cliente"
+				autocomplete="off"
+				class="form--input"
+				[(ngModel)]="customerName"
+			/>
 
-		<button type="submit" class="button primary">Crear</button>
-	</form>
-</div>
+			<button type="submit" class="button primary form--submit">Crear</button>
+		</form>
+	</div>
 
-<hr />
+	<hr class="rule" />
 
-<div class="order">
-	<h3 class="title">Pedidos</h3>
+	<div class="order">
+		<h3 class="title">Pedidos</h3>
 
-	@if (orders$ | async; as orders) {
-	<div class="list">
-		@if(orders.length !== 0) { @for (order of orders; track order.code) {
-		<button
-			class="button default"
-			[id]="order.code"
-			(click)="selectOrder(order)"
-		>
-			{{ order.client }}
-		</button>
-		} } @else {
-		<p>NO hay pedidos</p>
+		@if (orders$ | async; as orders) {
+
+		<div class="list">
+			@if(orders.length !== 0) { @for (order of orders; track order.code;) {
+			<button
+				class="button default"
+				[id]="order.code"
+				(click)="selectOrder(order.code)"
+			>
+				{{ order.client }}
+			</button>
+			} } @else {
+			<p>NO hay pedidos</p>
+			}
+		</div>
+		} @else {
+		<p>No hay pedidos o sucedio un error</p>
 		}
 	</div>
-	} @else {
-	<p>No hay pedidos o sucedio un error</p>
-	}
-</div>
 
-<hr />
+	<hr class="rule" />
 
-@if (order$ | async; as order) {
-<div>
-	<h4 class="title">Detalles del pedido</h4>
-
-	<div>
-		<h4>Cliente - {{ order.client }}</h4>
+	@if (order$ | async; as order) {
+	<div class="details">
+		<h4 class="title">Detalles del pedido - {{ order.client }}</h4>
 
 		@if (order.products.length !==0) {
 		<app-order-list [order]="order" />
@@ -69,9 +69,9 @@
 			}
 		</footer>
 	</div>
-</div>
-}
+	}
 
-<div style="margin-top: 4rem">
-	{{ order$ | async | json }}
+	<div style="margin-top: 4rem">
+		{{ order$ | async | json }}
+	</div>
 </div>

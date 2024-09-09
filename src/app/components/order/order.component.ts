@@ -26,39 +26,38 @@ export class OrderComponent implements OnInit {
 	public total$!: Observable<number>;
 
 	public orders$!: Observable<Order[]>;
-	public client: string = "";
+	public customerName: string = "";
+	public selectedClient!: string;
 	public order$!: Observable<Order | null>;
 	public isSelected: boolean = false;
 
 	ngOnInit(): void {
-		// this.order = this.orderService.getCurrentOrder();
-		// this.total$ = this.orderService.calculatedTotalToPay;
-
 		this.orders$ = this.orderService.getAllOrders();
 		this.order$ = this.orderService.getOrderSubject();
 	}
 
 	createNewOrder(): void {
-		if (this.client.trim().length === 0) {
+		if (this.customerName.trim().length === 0) {
 			console.log("Complete los campos");
 			return;
 		}
 		const currentOrder: Order = new Order(
 			crypto.randomUUID(),
-			this.client,
+			this.customerName,
 			[],
 			0
 		);
 		this.orderService.addOrderToOrders(currentOrder);
-		this.client = "";
+		this.customerName = "";
 	}
 
-	selectOrder(order: Order): void {
-		this.isSelected = true;
-		if (order.products.length === 0) {
-			this.orderService.resetTotalCalculated = 0;
+	selectOrder(orderCode: string): void {
+		const selectedOrder: Order | undefined =
+			this.orderService.getOrderByCode(orderCode);
+
+		if (selectedOrder) {
+			this.orderService.setOrderSubject(selectedOrder);
 		}
-		this.orderService.setOrderSubject(order);
 	}
 
 	deleteOrder(currentOrder: Order): void {

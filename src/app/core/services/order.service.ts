@@ -154,9 +154,11 @@ export class OrderService {
 		}
 	}
 
-	// getCurrentOrder(): Order {
-	// 	return this.currentOrder;
-	// }
+	getOrderByCode(orderCode: Order["_code"]): Order | undefined {
+		return this.orders.find(
+			(order: Order): boolean => order.code === orderCode
+		);
+	}
 
 	// ✅
 	private verifyExistenceOfTheOrder(
