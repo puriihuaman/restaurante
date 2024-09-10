@@ -1,33 +1,39 @@
-<div class="right-content">
-	<div>
+<div class="right--content">
+	<div class="form__container">
 		<form action="#" (submit)="createNewOrder()" class="form">
-			<h3 class="form--title">Nuevo pedido</h3>
-			<label for="client" class="form--label">Cliente</label>
-			<input
-				type="text"
-				name="client"
-				id="client"
-				placeholder="Escribe el nombre del cliente"
-				autocomplete="off"
-				class="form--input"
-				[(ngModel)]="customerName"
-			/>
+			<fieldset class="form__field">
+				<legend class="title form__title">Nuevo pedido</legend>
+				<label for="customName" class="form__label">Nombre del cliente:</label>
+				<input
+					type="text"
+					name="customName"
+					id="customName"
+					tabindex="1"
+					placeholder="Escribe el nombre del cliente"
+					autocomplete="off"
+					autofocus
+					class="form__input"
+					[(ngModel)]="customerName"
+				/>
+			</fieldset>
 
-			<button type="submit" class="button primary form--submit">Crear</button>
+			<button type="submit" class="button primary form__submit">
+				Crear pedido
+			</button>
 		</form>
 	</div>
 
 	<hr class="rule" />
 
-	<div class="order">
+	<section class="order">
 		<h3 class="title">Pedidos</h3>
 
 		@if (orders$ | async; as orders) {
 
-		<div class="list">
+		<div class="order__list">
 			@if(orders.length !== 0) { @for (order of orders; track order.code;) {
 			<button
-				class="button default"
+				class="button default order__client--button"
 				[id]="order.code"
 				(click)="selectOrder(order.code)"
 			>
@@ -40,18 +46,18 @@
 		} @else {
 		<p>No hay pedidos o sucedio un error</p>
 		}
-	</div>
+	</section>
 
 	<hr class="rule" />
 
 	@if (order$ | async; as order) {
-	<div class="details">
+	<div class="detail">
 		<h4 class="title">Detalles del pedido - {{ order.client }}</h4>
 
 		@if (order.products.length !==0) {
 		<app-order-list [order]="order" />
 
-		<div class="total">
+		<div class="detail__total">
 			<p>
 				Total: <strong>{{ order.total | currency }}</strong>
 			</p>
@@ -60,12 +66,20 @@
 		<div>El pedido esta vacío</div>
 		}
 
-		<footer class="footer">
-			<button class="button cancel" (click)="deleteOrder(order)">
+		<footer class="detail__footer">
+			<button
+				class="button danger detail__button--delete"
+				(click)="deleteOrder(order)"
+			>
 				Eliminar pedido
 			</button>
 			@if (order.products.length!==0) {
-			<a href="/boleta" class="button pay" target="_blank">Imprimir</a>
+			<a
+				href="/boleta"
+				class="button primary detail__button--print"
+				target="_blank"
+				>Imprimir</a
+			>
 			}
 		</footer>
 	</div>

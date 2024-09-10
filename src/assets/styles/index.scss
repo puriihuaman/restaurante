@@ -1,6 +1,7 @@
-@import "vars.scss";
-@import "colors.scss";
-@import "reset.scss";
-@import "scroll.scss";
-@import "fonts.scss";
-@import "base.scss";
+@import "base/reset.scss";
+@import "utils/vars.scss";
+@import "base/base.scss";
+@import "colors/colors.scss";
+@import "common/common.scss";
+@import "fonts/fonts.scss";
+@import "utils/scroll.scss";

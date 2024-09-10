@@ -1,20 +1,19 @@
 <div class="product-card" [ngClass]="loadCategory(product.category)">
-	<p class="product-title">{{ product.title }}</p>
-	<p class="product-price">{{ product.price | currency }}</p>
+	<p class="product-card__title">{{ product.title }}</p>
+	<p class="product-card__price">{{ product.price | currency }}</p>
 	@if (order$|async; as order) {
 	<button
-		class="button primary add"
+		class="button primary product-card__add"
 		(click)="handleAddOrder(order, product, 'ADD')"
 	>
 		<app-icon-svg iconID="cart" iconSize="xs" />
 	</button>
 	} @else {
 	<button
-		class="button primary add"
+		class="button primary product-card__add"
 		(click)="handleAddOrder(null, product, 'ADD')"
 	>
 		<app-icon-svg iconID="cart" iconSize="xs" />
 	</button>
 	}
-	<span>{{ order$ | async | json }}</span>
 </div>

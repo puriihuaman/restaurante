@@ -1,48 +1,52 @@
 <div class="container">
 	@if (currentOrder) {
 	<div class="ticket">
-		<header>
+		<header class="ticket__header">
 			<!-- Title -->
-			<div class="ticket-header">
-				<h2>Factura Electrónica</h2>
-				<p>{{ currentOrder.code }}</p>
+			<div class="ticket__header-title">
+				<h2 class="ticket__title">Factura Electrónica</h2>
+				<p class="ticket__code">90fd9sfsdfs</p>
 			</div>
 			<hr class="rule" />
 
 			<!-- User Details -->
-			<div class="author">
-				<p>Señor(es):</p>
+			<div class="ticket__author">
+				<p>
+					Señor(es): <span class="ticket__author-name">Cielo Fernandez</span>
+				</p>
 				<!-- ruc -->
 				<!-- fecha -->
-				<p>Fecha:</p>
+				<p>Fecha: <span class="ticket__date">10/09/2024</span></p>
 			</div>
 		</header>
 
 		<hr class="rule" />
 
-		<div class="content">
+		<div class="ticket__content">
 			<!-- header -->
-			<div class="content-header">
-				<p class="title">Producto</p>
-				<p class="amount">Cant.</p>
-				<p class="price">Precio</p>
+			<div class="ticket__head">
+				<p class="ticket__head-title">Producto</p>
+				<p class="ticket__head-amount">Cant.</p>
+				<p class="ticket__head-price">Precio</p>
 			</div>
+
 			<hr class="rule" />
 
 			<!-- list -->
-			<div class="content-products">
+			<div class="ticket__products">
 				<!-- @for (product of products; track product.product.id) {
-				<div class="content-item">
-					<p class="title">{{ product.product.title }}</p>
-					<p class="amount">{{ product.quantity }}</p>
-					<p class="price">{{ product.product.price }}</p>
+				<div class="ticket__product-item">
+					<p class="ticket__product-title">{{ product.product.title }}</p>
+					<p class="ticket__product-amount">{{ product.quantity }}</p>
+					<p class="ticket__product-price">{{ product.product.price }}</p>
 				</div>
 				} -->
 			</div>
+
 			<hr class="rule" />
 
-			<footer class="ticket-footer">
-				<p>Total: $/. {{ currentOrder.total }}</p>
+			<footer class="ticket__footer">
+				<p class="ticket__total"><span>Total: </span><span>$/. 490</span></p>
 			</footer>
 
 			{{ currentOrder | json }}

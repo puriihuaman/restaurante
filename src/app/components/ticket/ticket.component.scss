@@ -13,66 +13,81 @@
 	padding: var(--space-6) var(--space-8);
 	background: var(--gray-900);
 	border-radius: var(--radii-md);
-}
 
-.ticket-header {
-	text-align: center;
-	text-transform: uppercase;
-	font-family: var(--heading-font);
-	padding: var(--space-2);
-}
+	&__header,
+	&__head,
+	&__footer {
+		font-family: var(--heading-font);
+	}
 
-.author {
-	padding: var(--space-2) 0;
-}
-
-.content-header {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	column-gap: var(--space-2);
-	padding: var(--space-4) 0;
-	font-family: var(--heading-font);
-}
-
-.content-products {
-	display: flex;
-	flex-direction: column;
-	row-gap: var(--space-2);
-	padding: var(--space-2) 0;
-	justify-content: center;
-	font-size: var(--fontSizes-sm);
-}
-
-.content-item {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	column-gap: var(--space-2);
-	flex-wrap: wrap;
-}
-
-.ticket-footer {
-	padding: var(--space-2) 0;
-}
-
-.rule {
-	height: var(--sizes-0-5);
-	background-color: var(--gray-700);
-}
-
-.title {
-	flex: 2;
-}
-
-.amount,
-.price {
-	--size: 60px;
-	flex: 1;
-	text-align: right;
-	min-width: var(--size);
-}
-
-.price {
-	--size: 120px;
+	&__header,
+	&__head,
+	&__products,
+	&__product-item,
+	&__total {
+		display: flex;
+	}
+	&__header {
+		flex-direction: column;
+		justify-content: space-between;
+		column-gap: var(--space-2);
+	}
+	&__header-title {
+		text-align: center;
+		text-transform: uppercase;
+		padding: var(--space-2) 0;
+	}
+	&__author {
+		padding: var(--space-2) 0;
+	}
+	&__author-name,
+	&__date {
+		font-family: var(--main-font);
+		margin-left: var(--space-2);
+	}
+	&__author-name {
+		color: var(--persian-blue-300);
+	}
+	&__content {
+		font-size: var(--fontSizes-sm);
+	}
+	&__head,
+	&__products {
+		justify-content: center;
+		row-gap: var(--space-2);
+		padding: var(--space-2) 0;
+	}
+	&__head-title,
+	&__product-title {
+		flex: 2;
+	}
+	&__head-amount,
+	&__head-price,
+	&__product-amount,
+	&__product-price {
+		--size: 60px;
+		flex: 1;
+		text-align: right;
+		min-width: var(--size);
+	}
+	&__head-price,
+	&__product-price {
+		--size: 120px;
+	}
+	&__products {
+		flex-direction: column;
+	}
+	&__product-item {
+		column-gap: var(--space-2);
+		flex-wrap: wrap;
+	}
+	&__product-item,
+	&__total {
+		justify-content: space-between;
+		align-items: center;
+	}
+	&__footer {
+		padding-top: var(--space-2);
+		font-size: var(--fontSizes-xl);
+	}
 }

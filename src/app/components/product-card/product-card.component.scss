@@ -31,14 +31,12 @@
 	&.hamburger {
 		--poster: url("/assets/images/hamburger.jpg");
 	}
-}
-
-.product-title,
-.product-price {
-	font-family: var(--heading-font);
-}
-
-.add {
-	line-height: 0;
-	padding: var(--space-2);
+	&__title,
+	&__price {
+		font-family: var(--heading-font);
+	}
+	&__add {
+		line-height: 0;
+		padding: var(--space-2);
+	}
 }

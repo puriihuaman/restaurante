@@ -1,11 +1,11 @@
 import { Component, Input } from "@angular/core";
-import { ProductsComponent } from "@components/products/products.component";
+import { ProductCardComponent } from "@components/product-card/product-card.component";
 import type { Product } from "@models/product";
 
 @Component({
 	selector: "app-categories-section",
 	standalone: true,
-	imports: [ProductsComponent],
+	imports: [ProductCardComponent],
 	templateUrl: "./categories-section.component.html",
 	styleUrl: "./categories-section.component.scss",
 })

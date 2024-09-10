@@ -27,19 +27,22 @@
 	padding: var(--space-4);
 }
 
+.left {
+	&__header {
+		margin-bottom: var(--space-4);
+	}
+	&__title {
+		font-size: var(--fontSizes-3xl);
+		font-family: var(--heading-font);
+		text-align: center;
+	}
+	&__categories {
+		display: flex;
+		flex-direction: column;
+		row-gap: var(--space-4);
+	}
+}
+
 .right {
 	background-color: var(--gray-900);
-}
-
-.title {
-	font-size: var(--fontSizes-3xl);
-	font-family: var(--heading-font);
-	margin-bottom: var(--space-4);
-	text-align: center;
-}
-
-.categories {
-	display: flex;
-	flex-direction: column;
-	row-gap: var(--space-4);
 }

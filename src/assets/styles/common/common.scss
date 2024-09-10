@@ -1,15 +1,10 @@
-body {
-	color: var(--gray-50);
-	background-color: var(--gray-950);
-	transition: var(--transition-property-common),
-		var(--transition-easing-ease-in-out), var(--transition-duration-300);
-}
-
 .button {
 	position: relative;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	font-family: inherit;
+	font-size: inherit;
 	text-align: center;
 	text-wrap: nowrap;
 	overflow: hidden;
@@ -18,7 +13,7 @@ body {
 	cursor: pointer;
 	border: 1px solid currentColor;
 	transition: var(--transition-property-common),
-		var(--transition-easing-ease-in-out), var(--transition-duration-300);
+		var(--transition-easing-ease-in-out), var(--transition-duration-200);
 
 	&.default {
 		color: var(--gray-500);
@@ -77,4 +72,9 @@ body {
 		width: 200px;
 		height: 200px;
 	}
+}
+
+.rule {
+	height: var(--sizes-0-5);
+	background-color: var(--gray-800);
 }

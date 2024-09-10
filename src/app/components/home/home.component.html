@@ -1,9 +1,11 @@
 <main class="main">
 	<div class="container">
 		<div class="left">
-			<div><h1 class="title">Productos</h1></div>
+			<header class="left__header">
+				<h1 class="left__title">Productos</h1>
+			</header>
 
-			<div class="categories">
+			<div class="left__categories">
 				<!-- Hamburger -->
 				@if (allBurgers$ |async; as allBurgers) {
 				<app-categories-section

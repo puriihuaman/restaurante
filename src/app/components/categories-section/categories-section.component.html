@@ -1,5 +1,9 @@
-<section>
-	<h2 class="title">{{ categoryName }}</h2>
+<section class="category">
+	<h2 class="category__title">{{ categoryName }}</h2>
 
-	<app-products [allProducts]="products" />
+	<div class="category__content">
+		@for (product of products; track product.id) {
+		<app-product-card [product]="product" />
+		}
+	</div>
 </section>

@@ -1,5 +1,22 @@
-.title {
-	font-family: var(--heading-font);
-	font-size: var(--fontSizes-2xl);
-	margin-bottom: var(--space-4);
+.category {
+	&__title {
+		font-family: var(--heading-font);
+		font-size: var(--fontSizes-2xl);
+		margin-bottom: var(--space-4);
+	}
+
+	&__content {
+		--column: 1;
+		display: grid;
+		grid-template-columns: repeat(var(--column), minmax(0, 1fr));
+		gap: var(--space-4);
+
+		@media (width >= 376px) {
+			--column: 2;
+		}
+
+		@media (width >= 1024px) {
+			--column: 3;
+		}
+	}
 }

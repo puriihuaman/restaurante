@@ -1,22 +1,22 @@
-<li class="order-item">
+<li class="product">
 	<div>🎯</div>
-	<p class="order-title">{{ product.title }}</p>
-	<p class="order-price">$/.{{ product.price }}</p>
+	<p class="product__title">{{ product.title }}</p>
+	<p class="product__price">$/.{{ product.price }}</p>
 
-	<div class="order-actions">
+	<div class="product__action action">
 		@if (order$|async; as order) {
-		<div class="order-add">
+		<div class="action__add">
 			<button
-				class="button primary increase"
+				class="button primary action__increase"
 				(click)="handleAddOrder(order, product, 'INCREASE')"
 			>
 				<app-icon-svg iconID="plus" iconSize="xs" />
 			</button>
 
-			<p class="order-amount">{{ quantity }}</p>
+			<p class="product__amount">{{ quantity }}</p>
 
 			<button
-				class="button default decrease"
+				class="button default action__decrease"
 				(click)="handleRemoveProduct(order, product.id, 'DECREASE')"
 			>
 				<app-icon-svg iconID="minus" iconSize="xs" />
@@ -24,7 +24,7 @@
 		</div>
 
 		<button
-			class="button danger remove"
+			class="button danger action__remove"
 			(click)="handleRemoveProduct(order, product.id, 'REMOVE')"
 		>
 			<app-icon-svg iconID="x" iconSize="xs" />
