@@ -9,7 +9,8 @@ export const routes: Routes = [
 			),
 	},
 	{
-		path: "boleta",
+		path: "boleta/:code",
+
 		loadComponent: () =>
 			import("@components/ticket/ticket.component").then(
 				(comp) => comp.TicketComponent

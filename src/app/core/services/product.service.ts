@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 
 import { productList } from "@data/list-product";
-import type { Product } from "@models/product";
+import type { Product } from "@interfaces/product";
 import { BehaviorSubject, map, type Observable } from "rxjs";
 
 @Injectable({
@@ -18,7 +18,7 @@ export class ProductService {
 		return this.allProducts.pipe(
 			map((products: Product[]): Product[] =>
 				products.filter(
-					(product: Product): boolean => product.getCategory === "hamburguesa"
+					(product: Product): boolean => product.category === "hamburguesa"
 				)
 			)
 		);
@@ -28,7 +28,7 @@ export class ProductService {
 		return this.allProducts.pipe(
 			map((products: Product[]): Product[] =>
 				products.filter(
-					(product: Product): boolean => product.getCategory === "ensalada"
+					(product: Product): boolean => product.category === "ensalada"
 				)
 			)
 		);
@@ -38,7 +38,7 @@ export class ProductService {
 		return this.allProducts.pipe(
 			map((products: Product[]): Product[] =>
 				products.filter(
-					(product: Product): boolean => product.getCategory === "bebida"
+					(product: Product): boolean => product.category === "bebida"
 				)
 			)
 		);

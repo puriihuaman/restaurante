@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
 import { ProductCardComponent } from "@components/product-card/product-card.component";
-import type { Product } from "@models/product";
+import type { Product } from "@interfaces/product";
 
 @Component({
 	selector: "app-categories-section",

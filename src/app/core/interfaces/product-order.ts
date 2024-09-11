@@ -1,4 +1,4 @@
-import type { Product } from "@models/product";
+import type { Product } from "@interfaces/product";
 
 export interface ProductOrder {
 	product: Product;

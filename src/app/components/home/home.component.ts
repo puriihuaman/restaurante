@@ -2,7 +2,7 @@ import { AsyncPipe } from "@angular/common";
 import { Component, inject, type OnInit } from "@angular/core";
 import { CategoriesSectionComponent } from "@components/categories-section/categories-section.component";
 import { OrderComponent } from "@components/order/order.component";
-import type { Product } from "@models/product";
+import type { Product } from "@interfaces/product";
 import { ProductService } from "@services/product.service";
 import type { Observable } from "rxjs";
 

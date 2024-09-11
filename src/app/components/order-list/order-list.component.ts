@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
 import { OrderItemComponent } from "@components/order-item/order-item.component";
-import type { Order } from "@models/order";
+import type { Order } from "@interfaces/order";
 
 @Component({
 	selector: "app-order-list",

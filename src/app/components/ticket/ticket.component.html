@@ -5,14 +5,15 @@
 			<!-- Title -->
 			<div class="ticket__header-title">
 				<h2 class="ticket__title">Factura Electrónica</h2>
-				<p class="ticket__code">90fd9sfsdfs</p>
+				<p class="ticket__code">{{ currentOrder.code }}</p>
 			</div>
 			<hr class="rule" />
 
 			<!-- User Details -->
 			<div class="ticket__author">
 				<p>
-					Señor(es): <span class="ticket__author-name">Cielo Fernandez</span>
+					Señor(es):
+					<span class="ticket__author-name">{{ currentOrder.client }}</span>
 				</p>
 				<!-- ruc -->
 				<!-- fecha -->
@@ -34,22 +35,22 @@
 
 			<!-- list -->
 			<div class="ticket__products">
-				<!-- @for (product of products; track product.product.id) {
+				@for (order of currentOrder.products; track order.product.id) {
 				<div class="ticket__product-item">
-					<p class="ticket__product-title">{{ product.product.title }}</p>
-					<p class="ticket__product-amount">{{ product.quantity }}</p>
-					<p class="ticket__product-price">{{ product.product.price }}</p>
+					<p class="ticket__product-title">{{ order.product.title }}</p>
+					<p class="ticket__product-amount">{{ order.quantity }}</p>
+					<p class="ticket__product-price">{{ order.product.price }}</p>
 				</div>
-				} -->
+				}
 			</div>
 
 			<hr class="rule" />
 
 			<footer class="ticket__footer">
-				<p class="ticket__total"><span>Total: </span><span>$/. 490</span></p>
+				<p class="ticket__total">
+					<span>Total: </span><span>{{ currentOrder.total | currency }}</span>
+				</p>
 			</footer>
-
-			{{ currentOrder | json }}
 		</div>
 	</div>
 	} @else {

@@ -30,13 +30,13 @@
 
 		@if (orders$ | async; as orders) { @if(orders.length !== 0) {
 		<div class="order__list">
-			@for (order of orders; track order.getCode;) {
+			@for (order of orders; track order.code;) {
 			<button
 				class="button default order__client--button"
-				[id]="order.getCode"
-				(click)="selectOrder(order.getCode)"
+				[id]="order.code"
+				(click)="selectOrder(order.code)"
 			>
-				{{ order.getClient }}
+				{{ order.client }}
 			</button>
 			}
 		</div>
@@ -51,15 +51,14 @@
 
 	@if (order$ | async; as order) {
 	<div class="detail">
-		<h4 class="title">Detalles del pedido - {{ order.getClient }}</h4>
+		<h4 class="title">Detalles del pedido - {{ order.client }}</h4>
 
-		@if (order.getProducts.length !== 0) {
-		{{ order.getProducts | json }}
+		@if (order.products.length !== 0) {
 		<app-order-list [order]="order" />
 
 		<div class="detail__total">
 			<p>
-				Total: <strong>{{ order.getTotal | currency }}</strong>
+				Total: <strong>{{ order.total | currency }}</strong>
 			</p>
 		</div>
 		} @else {
@@ -73,9 +72,9 @@
 			>
 				Eliminar pedido
 			</button>
-			@if (order.getProducts.length!==0) {
+			@if (order.products.length!==0) {
 			<a
-				href="/boleta"
+				[routerLink]="['/boleta', order.code]"
 				class="button primary detail__button--print"
 				target="_blank"
 			>

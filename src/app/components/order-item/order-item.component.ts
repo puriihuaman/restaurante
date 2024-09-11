@@ -1,8 +1,8 @@
 import { AsyncPipe } from "@angular/common";
 import { Component, inject, Input, type OnInit } from "@angular/core";
 import { IconSVGComponent } from "@components/icon-svg/icon-svg.component";
-import type { Order } from "@models/order";
-import type { Product } from "@models/product";
+import type { Order } from "@interfaces/order";
+import type { Product } from "@interfaces/product";
 import { OrderService } from "@services/order.service";
 import type { ActionUser } from "@type/action-user";
 import type { Observable } from "rxjs";
