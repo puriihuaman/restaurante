@@ -1,43 +1,51 @@
 import type { Category } from "@type/category";
 
+// export interface Product {
+// 	id: string;
+// 	title: string;
+// 	description: string;
+// 	price: number;
+// 	category: Category;
+// }
+
 export class Product {
-	private _id: string;
-	private _title: string;
-	private _description: string;
-	private _price: number;
-	private _category: Category;
+	private id: string;
+	private title: string;
+	private description: string;
+	private price: number;
+	private category: Category;
 
 	constructor(
-		id: string,
-		title: string,
-		description: string,
-		price: number,
-		category: Category
+		_id: string,
+		_title: string,
+		_description: string,
+		_price: number,
+		_category: Category
 	) {
-		this._id = id;
-		this._title = title;
-		this._description = description;
-		this._price = price;
-		this._category = category;
+		this.id = _id;
+		this.title = _title;
+		this.description = _description;
+		this.price = _price;
+		this.category = _category;
 	}
 
-	get id(): string {
-		return this._id;
+	get getId(): string {
+		return this.id;
 	}
 
-	get title(): string {
-		return this._title;
+	get getTitle(): string {
+		return this.title;
 	}
 
-	get description(): string {
-		return this._description;
+	get getDescription(): string {
+		return this.description;
 	}
 
-	get price(): number {
-		return this._price;
+	get getPrice(): number {
+		return this.price;
 	}
 
-	get category(): Category {
-		return this._category;
+	get getCategory(): Category {
+		return this.category;
 	}
 }

@@ -2,7 +2,7 @@
  * Hamburger
  */
 
-import { Product } from "../../core/models/product";
+import { Product } from "@models/product";
 
 const hamburger1 = new Product(
 	crypto.randomUUID(),

@@ -1,10 +1,18 @@
 import type { ProductOrder } from "@interfaces/product-order";
+import type { Product } from "./product";
+
+// export interface Order {
+// 	code: string;
+// 	client: string;
+// 	products: ProductOrder[];
+// 	total: number;
+// }
 
 export class Order {
-	private _code: string;
-	private _client: string;
-	private _products: ProductOrder[];
-	private _total: number;
+	private code: string;
+	private client: string;
+	private products: ProductOrder[];
+	private total: number;
 
 	constructor(
 		code: string,
@@ -12,33 +20,90 @@ export class Order {
 		products: ProductOrder[],
 		total: number
 	) {
-		this._code = code;
-		this._client = client;
-		this._products = products;
-		this._total = total;
+		this.code = code;
+		this.client = client;
+		this.products = products;
+		this.total = total;
 	}
 
-	get code(): string {
-		return this._code;
+	public addProduct(_product: Product, _amount: number): void {
+		const existingProduct: ProductOrder | undefined =
+			this.verifyProductExistence(_product.getId);
+		if (existingProduct) {
+			existingProduct.quantity += _amount;
+		} else {
+			this.products.push({ product: _product, quantity: _amount });
+		}
+		this.updateTotal();
 	}
 
-	get client(): string {
-		return this._client;
+	public decrease(_productId: Product["id"], _amount: number = 1): void {
+		const existingProduct: ProductOrder | undefined =
+			this.verifyProductExistence(_productId);
+
+		if (existingProduct) {
+			existingProduct.quantity -= _amount;
+			if (existingProduct.quantity <= 0) {
+				this.setProducts = this.filterProducts(_productId);
+			}
+		}
+		this.updateTotal();
 	}
 
-	get products(): ProductOrder[] {
-		return this._products;
+	public removeProduct(_productId: Product["id"]): void {
+		this.setProducts = this.filterProducts(_productId);
+		this.updateTotal();
+	}
+
+	public verifyProductExistence(
+		_productId: Product["id"]
+	): ProductOrder | undefined {
+		return this.getProducts.find(
+			({ product }: ProductOrder): boolean => product.getId === _productId
+		);
+	}
+
+	public filterProducts(_productId: Product["id"]): ProductOrder[] {
+		return (
+			this.getProducts.filter(
+				({ product }: ProductOrder): boolean => product.getId !== _productId
+			) || []
+		);
+	}
+
+	private updateTotal(): void {
+		this.setTotal = this.getProducts.reduce(
+			(acc: number, { product, quantity }: ProductOrder): number =>
+				acc + product.getPrice * quantity,
+			0
+		);
+	}
+
+	get getCode(): string {
+		return this.code;
+	}
+
+	get getClient(): string {
+		return this.client;
+	}
+
+	set setClient(_client: string) {
+		this.client = _client;
+	}
+
+	get getProducts(): ProductOrder[] {
+		return this.products;
 	}
 
 	set setProducts(_products: ProductOrder[]) {
-		this._products = _products;
+		this.products = _products;
 	}
 
-	get total(): number {
-		return this._total;
+	get getTotal(): number {
+		return this.total;
 	}
 
-	set total(_total: number) {
-		this._total = _total;
+	set setTotal(_total: number) {
+		this.total = _total;
 	}
 }

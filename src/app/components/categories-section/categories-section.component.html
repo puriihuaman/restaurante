@@ -2,7 +2,7 @@
 	<h2 class="category__title">{{ categoryName }}</h2>
 
 	<div class="category__content">
-		@for (product of products; track product.id) {
+		@for (product of products; track product.getId) {
 		<app-product-card [product]="product" />
 		}
 	</div>

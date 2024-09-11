@@ -18,7 +18,7 @@ export class ProductService {
 		return this.allProducts.pipe(
 			map((products: Product[]): Product[] =>
 				products.filter(
-					(product: Product): boolean => product.category === "hamburguesa"
+					(product: Product): boolean => product.getCategory === "hamburguesa"
 				)
 			)
 		);
@@ -28,7 +28,7 @@ export class ProductService {
 		return this.allProducts.pipe(
 			map((products: Product[]): Product[] =>
 				products.filter(
-					(product: Product): boolean => product.category === "ensalada"
+					(product: Product): boolean => product.getCategory === "ensalada"
 				)
 			)
 		);
@@ -38,7 +38,7 @@ export class ProductService {
 		return this.allProducts.pipe(
 			map((products: Product[]): Product[] =>
 				products.filter(
-					(product: Product): boolean => product.category === "bebida"
+					(product: Product): boolean => product.getCategory === "bebida"
 				)
 			)
 		);

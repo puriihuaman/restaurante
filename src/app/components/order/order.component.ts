@@ -41,6 +41,14 @@ export class OrderComponent implements OnInit {
 			console.log("Complete los campos");
 			return;
 		}
+
+		// const currentOrder: Order = {
+		// 	code: crypto.randomUUID(),
+		// 	client: this.customerName,
+		// 	products: [],
+		// 	total: 0,
+		// };
+
 		const currentOrder: Order = new Order(
 			crypto.randomUUID(),
 			this.customerName,
@@ -64,6 +72,6 @@ export class OrderComponent implements OnInit {
 		if (currentOrder) {
 			this.orderService.deleteOrder(currentOrder);
 		}
-		this.orders$ = this.orderService.getAllOrders();
+		// this.orders$ = this.orderService.getAllOrders(); // borrar
 	}
 }

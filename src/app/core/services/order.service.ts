@@ -1,19 +1,20 @@
 import { BehaviorSubject, type Observable } from "rxjs";
 
 import { Injectable } from "@angular/core";
-import type { ActionUser } from "@type/action-user";
-import type { ProductOrder } from "@interfaces/product-order";
 import { environment } from "@environment/environment.development";
-import { Order } from "@models/order";
+
+import type { ProductOrder } from "@interfaces/product-order";
 import type { Product } from "@models/product";
+import type { ActionUser } from "@type/action-user";
+import { Order } from "@models/order";
 
 @Injectable({
 	providedIn: "root",
 })
 export class OrderService {
 	private storageName: string = environment.storageName;
-	private calculatedTotal: BehaviorSubject<number> =
-		new BehaviorSubject<number>(0);
+	// private calculatedTotal: BehaviorSubject<number> =
+	// 	new BehaviorSubject<number>(0);
 	private orders: Order[] = [];
 	private ordersSubject: BehaviorSubject<Order[]> = new BehaviorSubject<
 		Order[]
@@ -21,7 +22,9 @@ export class OrderService {
 	private orderSubject: BehaviorSubject<Order | null> =
 		new BehaviorSubject<Order | null>(null);
 
-	constructor() {}
+	constructor() {
+		this.loadFromStorage();
+	}
 
 	public getAllOrders(): Observable<Order[]> {
 		return this.ordersSubject.asObservable();
@@ -34,6 +37,26 @@ export class OrderService {
 	public addOrderToOrders(newOrder: Order): void {
 		this.orders.push(newOrder);
 		this.setOrders(this.orders);
+		console.log("Guardar");
+		this.saveOrdersToStorage();
+	}
+
+	deleteOrder(currentOrder: Order): void {
+		const existingOrder: Order | undefined = this.verifyExistenceOfTheOrder(
+			currentOrder.getCode
+		);
+
+		if (existingOrder) {
+			this.filterOrders(currentOrder.getCode);
+			this.orderSubject.next(null);
+			this.saveOrdersToStorage();
+		}
+	}
+
+	getOrderByCode(orderCode: Order["code"]): Order | undefined {
+		return this.orders.find(
+			(order: Order): boolean => order.getCode === orderCode
+		);
 	}
 
 	public getOrderSubject(): Observable<Order | null> {
@@ -52,21 +75,23 @@ export class OrderService {
 	): void {
 		if (action === "ADD" || action === "INCREASE") {
 			const existingOrder: Order | undefined = this.verifyExistenceOfTheOrder(
-				currentOrder.code
+				currentOrder.getCode
 			);
 
 			if (existingOrder) {
-				const existingProduct: ProductOrder | undefined =
-					this.verifyProductExistence(currentOrder, currentProduct.id);
+				existingOrder.addProduct(currentProduct, amount);
+				// const existingProduct: ProductOrder | undefined =
+				// 	this.verifyProductExistence(currentOrder, currentProduct.getId);
 
-				if (existingProduct) existingProduct.quantity += amount;
-				else
-					currentOrder.products.push({
-						product: currentProduct,
-						quantity: amount,
-					});
+				// if (existingProduct) existingProduct.quantity += amount;
+				// else existingOrder.addProduct(currentProduct, amount);
+				// currentOrder.products.push({
+				// 	product: currentProduct,
+				// 	quantity: amount,
+				// });
 
-				this.updateTotal(currentOrder);
+				// this.updateTotal(currentOrder);
+				this.saveOrdersToStorage();
 			}
 		}
 	}
@@ -78,9 +103,17 @@ export class OrderService {
 		action: ActionUser
 	): void {
 		const existingOrder: Order | undefined = this.verifyExistenceOfTheOrder(
-			currentOrder.code
+			currentOrder.getCode
 		);
 		if (existingOrder) {
+			if (action === "DECREASE") {
+				existingOrder.decrease(productId, amount);
+			} else if (action === "REMOVE") {
+				existingOrder.removeProduct(productId);
+			}
+			this.saveOrdersToStorage();
+
+			/*
 			const existingProduct: ProductOrder | undefined =
 				this.verifyProductExistence(currentOrder, productId);
 			if (existingProduct) {
@@ -99,105 +132,111 @@ export class OrderService {
 					);
 				}
 				this.updateTotal(currentOrder);
+				this.saveOrdersToStorage();
+				this.upgradeStorage(existingOrder.getCode, currentOrder, productId);
 			}
+			*/
 		}
-	}
-
-	deleteOrder(currentOrder: Order): void {
-		const existingOrder: Order | undefined = this.verifyExistenceOfTheOrder(
-			currentOrder.code
-		);
-
-		if (existingOrder) {
-			this.filterOrders(currentOrder.code);
-			this.orderSubject.next(null);
-		}
-	}
-
-	getOrderByCode(orderCode: Order["_code"]): Order | undefined {
-		return this.orders.find(
-			(order: Order): boolean => order.code === orderCode
-		);
 	}
 
 	private verifyExistenceOfTheOrder(
-		orderCode: Order["_code"]
+		orderCode: Order["code"]
 	): Order | undefined {
 		return this.orders.find(
-			(order: Order): boolean => order.code === orderCode
+			(order: Order): boolean => order.getCode === orderCode
 		);
 	}
 
-	private filterOrders(orderCode: Order["_code"]): void {
+	private filterOrders(orderCode: Order["code"]): void {
 		this.orders = this.orders.filter(
-			(order: Order): boolean => order.code !== orderCode
+			(order: Order): boolean => order.getCode !== orderCode
 		);
 		this.setOrders(this.orders);
 	}
 
-	private verifyProductExistence(
-		currentOrder: Order,
-		productId: Product["_id"]
-	): ProductOrder | undefined {
-		return currentOrder.products.find(
-			({ product }: ProductOrder): boolean => product.id === productId
-		);
-	}
+	// private verifyProductExistence(
+	// 	currentOrder: Order,
+	// 	productId: Product["id"]
+	// ): ProductOrder | undefined {
+	// 	return currentOrder.getProducts.find(
+	// 		({ product }: ProductOrder): boolean => product.getId === productId
+	// 	);
+	// }
 
-	private filterProducts(
+	/* private filterProducts(
 		currentOrder: Order,
-		productId: Product["_id"]
+		productId: Product["id"]
 	): ProductOrder[] {
 		return (
-			currentOrder?.products.filter(
-				({ product }: ProductOrder): boolean => product.id !== productId
+			currentOrder.getProducts.filter(
+				({ product }: ProductOrder): boolean => product.getId !== productId
 			) || []
 		);
-	}
+	} */
 
-	private calculateTotal(products: ProductOrder[]): number {
+	/* private calculateTotal(products: ProductOrder[]): number {
 		const total: number = products.reduce(
 			(acc: number, { product, quantity }: ProductOrder): number =>
-				acc + product.price * quantity,
+				acc + product.getPrice * quantity,
 			0
 		);
 		return total;
-	}
+	} */
 
-	private updateTotal(currentOrder: Order): void {
-		if (currentOrder) {
-			currentOrder.total = this.calculateTotal(currentOrder.products);
-			this.calculatedTotal.next(currentOrder.total);
+	// private updateTotal(currentOrder: Order): void {
+	// 	if (currentOrder) {
+	// 		currentOrder.setTotal = this.calculateTotal(currentOrder.getProducts);
+	// 		this.calculatedTotal.next(currentOrder.getTotal);
+	// 	}
+	// }
+
+	// get calculatedTotalToPay(): Observable<number> {
+	// 	return this.calculatedTotal.asObservable();
+	// }
+
+	// set resetTotalCalculated(resetTotal: number) {
+	// 	this.calculatedTotal.next(resetTotal);
+	// }
+
+	public loadFromStorage(): void {
+		const storedOrders: string | null = localStorage.getItem(this.storageName);
+		if (storedOrders) {
+			const ordersArray: Order[] = JSON.parse(storedOrders);
+			console.log(ordersArray);
+			// ✅ Corregir this.orders = [...ordersArray];
+			this.ordersSubject.next(this.orders);
+			console.log(this.orders);
 		}
 	}
 
-	get calculatedTotalToPay(): Observable<number> {
-		return this.calculatedTotal.asObservable();
-	}
-
-	set resetTotalCalculated(resetTotal: number) {
-		this.calculatedTotal.next(resetTotal);
-	}
-
-	// ❌ Revisar
-	public loadFromStorage(): void {
-		const currentOrders: string | null = localStorage.getItem(this.storageName);
-		if (currentOrders) this.orders = JSON.parse(currentOrders);
-	}
-
-	// ❌ Revisar
-	private saveStorage(): void {
+	private saveOrdersToStorage(): void {
 		localStorage.setItem(this.storageName, JSON.stringify(this.orders));
 	}
 
 	// ❌ Revisar
-	private upgradeStorage(): void {
-		const currentOrders: string | null = localStorage.getItem(this.storageName);
-		if (currentOrders) {
-			localStorage.setItem(this.storageName, JSON.stringify(this.orders));
-			// if (currentOrders.products.length === 0) {
-			// 	localStorage.clear();
-			// }
+	private upgradeStorage(
+		orderCode: Order["code"],
+		currentOrder: Order,
+		productId: Product["id"]
+	): void {
+		const storedOrders: string | null = localStorage.getItem(this.storageName);
+		if (storedOrders) {
+			const existingOrder = this.verifyExistenceOfTheOrder(orderCode);
+
+			if (existingOrder) {
+				// const existingProduct = this.verifyProductExistence(
+				// 	currentOrder,
+				// 	productId
+				// );
+				// if (existingOrder) {
+				// 	console.log("Si existe el producto");
+				// }
+			}
+
+			// localStorage.setItem(this.storageName, JSON.stringify(this.orders));
+			// // if (currentOrders.products.length === 0) {
+			// // 	localStorage.clear();
+			// // }
 		}
 	}
 }

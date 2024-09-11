@@ -1,5 +1,6 @@
 <ul class="product-list">
-	@if (order) { @for (product of order.products; track product.product.id) {
+	@if (order) { @for (product of order.getProducts; track product.product.getId)
+	{
 	<app-order-item [product]="product.product" [quantity]="product.quantity" />
 	} }
 </ul>

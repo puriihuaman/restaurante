@@ -1,7 +1,7 @@
 <li class="product">
 	<div>🎯</div>
-	<p class="product__title">{{ product.title }}</p>
-	<p class="product__price">$/.{{ product.price }}</p>
+	<p class="product__title">{{ product.getTitle }}</p>
+	<p class="product__price">$/.{{ product.getPrice }}</p>
 
 	<div class="product__action action">
 		@if (order$|async; as order) {
@@ -17,7 +17,7 @@
 
 			<button
 				class="button default action__decrease"
-				(click)="handleRemoveProduct(order, product.id, 'DECREASE')"
+				(click)="handleRemoveProduct(order, product.getId, 'DECREASE')"
 			>
 				<app-icon-svg iconID="minus" iconSize="xs" />
 			</button>
@@ -25,7 +25,7 @@
 
 		<button
 			class="button danger action__remove"
-			(click)="handleRemoveProduct(order, product.id, 'REMOVE')"
+			(click)="handleRemoveProduct(order, product.getId, 'REMOVE')"
 		>
 			<app-icon-svg iconID="x" iconSize="xs" />
 		</button>
