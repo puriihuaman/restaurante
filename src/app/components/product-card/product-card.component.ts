@@ -1,4 +1,4 @@
-import { AsyncPipe, CurrencyPipe, JsonPipe, NgClass } from "@angular/common";
+import { AsyncPipe, CurrencyPipe, NgClass } from "@angular/common";
 import { Component, inject, Input, type OnInit } from "@angular/core";
 import { IconSVGComponent } from "@components/icon-svg/icon-svg.component";
 import type { Order } from "@models/order";
@@ -11,7 +11,7 @@ import type { Observable } from "rxjs";
 @Component({
 	selector: "app-product-card",
 	standalone: true,
-	imports: [AsyncPipe, JsonPipe, CurrencyPipe, NgClass, IconSVGComponent],
+	imports: [AsyncPipe, CurrencyPipe, NgClass, IconSVGComponent],
 	templateUrl: "./product-card.component.html",
 	styleUrl: "./product-card.component.scss",
 })
@@ -32,15 +32,14 @@ export class ProductCardComponent implements OnInit {
 		action: ActionUser
 	): void {
 		if (order === null) {
-			console.log("Seleccione un pedido");
+			alert("Debe seleccionar un pedido.");
 			return;
 		}
 
-		console.log("Puede agregar");
 		this.orderService.addProductToOrder(order, product, 1, action);
 	}
 
-	public loadCategory(category: Category): string {
+	public addPoster(category: Category): string {
 		let poster: string = "hamburguesa";
 		if (category) {
 			switch (category) {

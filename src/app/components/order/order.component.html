@@ -28,10 +28,9 @@
 	<section class="order">
 		<h3 class="title">Pedidos</h3>
 
-		@if (orders$ | async; as orders) {
-
+		@if (orders$ | async; as orders) { @if(orders.length !== 0) {
 		<div class="order__list">
-			@if(orders.length !== 0) { @for (order of orders; track order.code;) {
+			@for (order of orders; track order.code;) {
 			<button
 				class="button default order__client--button"
 				[id]="order.code"
@@ -39,12 +38,12 @@
 			>
 				{{ order.client }}
 			</button>
-			} } @else {
-			<p>NO hay pedidos</p>
 			}
 		</div>
 		} @else {
-		<p>No hay pedidos o sucedio un error</p>
+		<app-error-message message="No hay pedidos" />
+		} } @else {
+		<app-error-message message="No hay pedidos o sucedio un error" />
 		}
 	</section>
 
@@ -63,7 +62,7 @@
 			</p>
 		</div>
 		} @else {
-		<div>El pedido esta vacío</div>
+		<app-error-message message="No hay productos en el pedido" />
 		}
 
 		<footer class="detail__footer">
@@ -78,14 +77,11 @@
 				href="/boleta"
 				class="button primary detail__button--print"
 				target="_blank"
-				>Imprimir</a
 			>
+				Imprimir
+			</a>
 			}
 		</footer>
 	</div>
 	}
-
-	<div style="margin-top: 4rem">
-		{{ order$ | async | json }}
-	</div>
 </div>

@@ -1,7 +1,7 @@
-<div class="product-card" [ngClass]="loadCategory(product.category)">
+<div class="product-card" [ngClass]="addPoster(product.category)">
 	<p class="product-card__title">{{ product.title }}</p>
 	<p class="product-card__price">{{ product.price | currency }}</p>
-	@if (order$|async; as order) {
+	@if (order$ | async; as order) {
 	<button
 		class="button primary product-card__add"
 		(click)="handleAddOrder(order, product, 'ADD')"

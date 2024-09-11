@@ -20,8 +20,6 @@ export class HomeComponent implements OnInit {
 	public allSalads$!: Observable<Product[]>;
 	public allDrinks$!: Observable<Product[]>;
 
-	// public allOrderProducts: { product: Product; quantity: number }[] = [];
-
 	ngOnInit(): void {
 		this.allBurgers$ = this.productService.allBurgers;
 		this.allSalads$ = this.productService.allSalads;

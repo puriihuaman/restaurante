@@ -1,6 +1,7 @@
 import { AsyncPipe, CurrencyPipe, JsonPipe, NgClass } from "@angular/common";
 import { Component, inject, type OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
+import { ErrorMessageComponent } from "@components/error-message/error-message.component";
 import { OrderListComponent } from "@components/order-list/order-list.component";
 import { Order } from "@models/order";
 import { OrderService } from "@services/order.service";
@@ -16,14 +17,13 @@ import type { Observable } from "rxjs";
 		CurrencyPipe,
 		NgClass,
 		OrderListComponent,
+		ErrorMessageComponent,
 	],
 	templateUrl: "./order.component.html",
 	styleUrl: "./order.component.scss",
 })
 export class OrderComponent implements OnInit {
 	private orderService: OrderService = inject(OrderService);
-	// public order!: Order | null;
-	public total$!: Observable<number>;
 
 	public orders$!: Observable<Order[]>;
 	public customerName: string = "";

@@ -38,6 +38,11 @@ export class OrderItemComponent implements OnInit {
 		productId: string,
 		action: ActionUser
 	): void {
-		this.orderService.removeProduct(currentOrder, productId, 1, action);
+		this.orderService.removeProductFromOrder(
+			currentOrder,
+			productId,
+			1,
+			action
+		);
 	}
 }
