@@ -1,27 +1,72 @@
+
 # Restaurante
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.1.1.
 
-## Development server
+**Restaurante** es una aplicación de gestión de pedidos diseñada para facilitar la administración de pedidos en restaurantes, permitiendo a los administradores registrar, modificar y eliminar pedidos de manera eficiente. De momento los pedidos se almacenan de forma local en el navegador.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Características
+- **Registro de pedido**: Permite registrar el pedido con el nombre del cliente.
+- **Agregar producto**: Permite agregar productos al pedido.
+- **Eliminar producto**: Los productos del pedido se pueden eliminar.
+- **Incrementar y Decrementar cantidad**: Permite aumentar y disminuir la cantidad del producto que estan en el pedido.
+- **Calcula el total**: Calcula el total a pagar del pedido.
+- **Validación**: Comprueba que no se introduzcan datos vacíos al crear una pedido.
+- **Persistencia de datos**: Los pedidos se guardan en el almacenamiento local, manteniéndolas disponibles entre sesiones.
+- **Imprimir ticket**: Imprime ticket con los detalles del pedido.
 
-## Code scaffolding
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Demo
 
-## Build
+![]('')
+![]('')
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-## Running unit tests
+## 🛠 Tecnologías
+- **Angular**: Versión 18
+- **SCSS**: Para el diseño y los estilos de la aplicación
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-## Running end-to-end tests
+## Instalación
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Para ejecutar la aplicación localmente, siga estos pasos:
 
-## Further help
+1. Clona el repositorio:
+```bash
+git clone https://github.com/puriihuaman/restaurante
+```
+2. Navegue hasta el directorio del proyecto:
+```bash
+cd restaurante
+```
+3. Instale las dependencias:
+```bash
+npm install
+```
+4. Inicie el servidor de desarrollo:
+```golpecito
+ng serve
+```
+5. Abra su navegador y vaya a http://localhost:4200.
+## Variables de entorno
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Para ejecutar este proyecto, asegúrate de agregar las siguientes variables de entorno en tu configuración:
+
+- `storageName`: Nombre utilizado para almacenar los datos en el almacenamiento local.
+
+
+## Uso
+
+- **Agregar cliente**: Ingrese el nombre del cliente y haga clic en "Crear pedido".
+- **Seleccione un cliente**: Seleccione un pedido(cliente) para agregar productos que el cliente elija.
+- **Aumentar cantidad**: Incremente la cantidad del producto si el cliente desea más de un producto.
+- **Realizar cobro**: Efectúe el cobro del pedido.
+- **Imprimir ticket**: Para imprimir un ticket haga clic en "Imprimir".
+
+## Contribución
+
+¡Las contribuciones son bienvenidas! Si deseas colaborar, siéntete libre de hacer un fork del repositorio y enviar un pull request. No dudes en compartir tus ideas y mejoras.
+
+## Contacto
+
+Para más información, puedes ponerte en contacto conmigo a través de https://www.linkedin.com/in/puriihuaman/.
+
