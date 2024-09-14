@@ -17,7 +17,10 @@
 				</p>
 				<!-- ruc -->
 				<!-- fecha -->
-				<p>Fecha: <span class="ticket__date">10/09/2024</span></p>
+				<p>
+					Fecha:
+					<span class="ticket__date">{{ currentDate | date : "short" }}</span>
+				</p>
 			</div>
 		</header>
 
@@ -52,6 +55,24 @@
 				</p>
 			</footer>
 		</div>
+	</div>
+
+	<div class="navegation">
+		<button
+			class="button primary navegation__button--home"
+			[ngClass]="{ disable: toPrint }"
+			(click)="returnHome()"
+		>
+			Volver
+		</button>
+
+		<button
+			class="button primary navegation__button--print"
+			[ngClass]="{ disable: toPrint }"
+			(click)="printTicket()"
+		>
+			Imprimir Boleta
+		</button>
 	</div>
 	} @else {
 	<div>No hay pedido</div>

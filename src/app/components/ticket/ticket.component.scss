@@ -1,6 +1,7 @@
 .container {
 	height: 100vh;
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	padding: var(--space-4);
@@ -9,7 +10,7 @@
 .ticket {
 	width: var(--sizes-full);
 	min-width: var(--sizes-20);
-	max-width: var(--sizes-lg);
+	max-width: var(--sizes-xl);
 	padding: var(--space-6) var(--space-8);
 	background: var(--gray-900);
 	border-radius: var(--radii-md);
@@ -27,16 +28,22 @@
 	&__total {
 		display: flex;
 	}
+
 	&__header {
 		flex-direction: column;
 		justify-content: space-between;
 		column-gap: var(--space-2);
 	}
+
 	&__header-title {
 		text-align: center;
 		text-transform: uppercase;
-		padding: var(--space-2) 0;
+		padding: var(--space-4) 0;
 	}
+	&__title {
+		margin-bottom: var(--space-2);
+	}
+
 	&__author {
 		padding: var(--space-2) 0;
 	}
@@ -45,9 +52,7 @@
 		font-family: var(--main-font);
 		margin-left: var(--space-2);
 	}
-	&__author-name {
-		color: var(--persian-blue-300);
-	}
+
 	&__content {
 		font-size: var(--fontSizes-sm);
 	}
@@ -89,5 +94,30 @@
 	&__footer {
 		padding-top: var(--space-2);
 		font-size: var(--fontSizes-xl);
+	}
+}
+
+.navegation {
+	display: flex;
+	gap: var(--space-4);
+	flex-wrap: wrap;
+	margin-top: auto;
+	margin-bottom: var(--sizes-4);
+
+	&__button--home {
+		color: var(--persian-blue-300);
+		background-color: transparent;
+		border-color: currentColor;
+		&:hover {
+			color: var(--persian-blue-500);
+		}
+	}
+
+	&__button--print.disable,
+	&__button--home.disable {
+		opacity: 0;
+		visibility: hidden;
+		transition: var(--transition-property-common),
+			var(--transition-easing-ease-in-out), var(--transition-duration-300);
 	}
 }
