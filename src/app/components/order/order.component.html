@@ -14,7 +14,14 @@
 					autofocus
 					class="form__input"
 					[(ngModel)]="customerName"
+					[ngClass]="{ error: hasError }"
 				/>
+
+				@if (hasError) {
+				<small class="form__alert" [ngClass]="{ error: hasError }">{{
+					message
+				}}</small>
+				}
 			</fieldset>
 
 			<button type="submit" class="button primary form__submit">

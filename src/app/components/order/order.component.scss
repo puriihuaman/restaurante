@@ -51,6 +51,14 @@
 		margin-left: auto;
 		margin-right: auto;
 	}
+
+	&__alert {
+		font-size: var(--fontSizes-xs);
+		color: var(--red-400);
+	}
+	& .error {
+		border-color: var(--red-400);
+	}
 }
 
 .order {

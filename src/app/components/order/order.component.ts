@@ -31,7 +31,8 @@ export class OrderComponent implements OnInit {
 	public customerName: string = "";
 	public selectedClient!: string;
 	public order$!: Observable<Order | null>;
-	public isSelected: boolean = false;
+	public message: string = "";
+	public hasError: boolean = false;
 
 	ngOnInit(): void {
 		this.orders$ = this.orderService.getAllOrders();
@@ -39,19 +40,14 @@ export class OrderComponent implements OnInit {
 	}
 
 	createNewOrder(): void {
-		if (this.customerName.trim().length === 0) {
-			console.log("Complete los campos");
+		if (!this.customerName.trim()) {
+			this.showErrorMessage("Debe agregar el nombre del cliente");
 			return;
 		}
 
-		const currentOrder: Order = {
-			code: crypto.randomUUID(),
-			client: this.customerName,
-			products: [],
-			total: 0,
-		};
+		const currentOrder: Order = this.createOrder(this.customerName);
 		this.orderService.addOrderToOrders(currentOrder);
-		this.customerName = "";
+		this.resetCustomerName();
 	}
 
 	selectOrder(orderCode: string): void {
@@ -65,7 +61,37 @@ export class OrderComponent implements OnInit {
 
 	deleteOrder(currentOrder: Order): void {
 		if (currentOrder) {
-			this.orderService.deleteOrder(currentOrder);
+			const response: boolean = window.confirm(
+				"¿Estás seguro de que deseas eliminar el pedido?"
+			);
+			if (response) {
+				if (currentOrder.products.length > 0) {
+					console.log(
+						"No se pudo eliminar. El pedido contiene una lista de productos"
+					);
+				} else {
+					this.orderService.deleteOrder(currentOrder);
+				}
+			}
 		}
+	}
+
+	private createOrder(_clientName: string): Order {
+		return {
+			code: crypto.randomUUID(),
+			client: _clientName,
+			products: [],
+			total: 0,
+		};
+	}
+
+	private showErrorMessage(message: string): void {
+		this.message = message;
+		this.hasError = true;
+		setTimeout((): boolean => (this.hasError = false), 2500);
+	}
+
+	private resetCustomerName(): void {
+		this.customerName = "";
 	}
 }
