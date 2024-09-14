@@ -80,13 +80,19 @@
 				Eliminar pedido
 			</button>
 			@if (order.products.length!==0) {
-			<a
+			<button
+				class="button primary detail__button--print"
+				(click)="generateTicket(order)"
+			>
+				Generar Boleta
+			</button>
+			<!-- <a
 				[routerLink]="['/boleta', order.code]"
 				class="button primary detail__button--print"
-				target="_blank"
+				target="_parent"
 			>
-				Imprimir
-			</a>
+				Generar Boleta
+			</a> -->
 			}
 		</footer>
 	</div>

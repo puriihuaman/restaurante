@@ -31,6 +31,7 @@ export class TicketComponent implements OnInit {
 
 			if (existingOrder) {
 				this.currentOrder = existingOrder;
+
 				this.currentDate = new Date();
 			} else {
 				this.returnHome();
@@ -40,14 +41,31 @@ export class TicketComponent implements OnInit {
 
 	public printTicket(): void {
 		this.toPrint = true;
-		console.log(this.toPrint);
+
 		setTimeout((): void => {
-			window.print();
+			/**
+			 *  TODO: Save to database
+			 * función en el servicio que guarde el pedido con el estado completado,
+			 * recuperar del localstorage
+			 */
+			this.completeOrder();
+
 			this.toPrint = false;
+			window.print();
 		}, 200);
 	}
 
 	public returnHome(): void {
 		this.router.navigate(["/"]);
+	}
+
+	private completeOrder() {
+		/**
+		 * TODO: Arrojar una alerta de que el pedido fue completado
+		 */
+		let isChanged: boolean = this.orderService.changeOrderStatus(
+			this.currentOrder,
+			"completed"
+		);
 	}
 }

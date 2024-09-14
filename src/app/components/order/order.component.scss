@@ -75,9 +75,6 @@
 		max-height: var(--sizes-48);
 		overflow-y: auto;
 	}
-
-	&__client--button {
-	}
 }
 
 .detail {
@@ -98,8 +95,6 @@
 	}
 	&__button--delete {
 		color: var(--red-400);
-	}
-	&__button--print {
 	}
 }
 

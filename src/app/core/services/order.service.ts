@@ -1,12 +1,16 @@
 import { BehaviorSubject, type Observable } from "rxjs";
 
-import { Injectable } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
 import { environment } from "@environment/environment.development";
 
 import type { ProductOrder } from "@interfaces/product-order";
 import type { Product } from "@interfaces/product";
 import type { ActionUser } from "@type/action-user";
 import { Order } from "@interfaces/order";
+import { collection, collectionData, Firestore } from "@angular/fire/firestore";
+import type { OrderStatus } from "@type/order-status";
+
+const PATH = "orders";
 
 @Injectable({
 	providedIn: "root",
@@ -19,12 +23,15 @@ export class OrderService {
 	>(this.orders);
 	private orderSubject: BehaviorSubject<Order | null> =
 		new BehaviorSubject<Order | null>(null);
+	private _firestore: Firestore = inject(Firestore);
+	private _collection = collection(this._firestore, PATH);
 
 	constructor() {
 		this.loadFromStorage();
 	}
 
 	public getAllOrders(): Observable<Order[]> {
+		// return collectionData(this._collection) as Observable<Order[]>;
 		return this.ordersSubject.asObservable();
 	}
 
@@ -32,7 +39,7 @@ export class OrderService {
 		this.ordersSubject.next(newOrders);
 	}
 
-	public addOrderToOrders(newOrder: Order): void {
+	addOrderToOrders(newOrder: Order): void {
 		this.orders.push(newOrder);
 		this.setAllOrders(this.orders);
 		this.saveOrdersToStorage();
@@ -54,6 +61,29 @@ export class OrderService {
 		return this.orders.find(
 			(order: Order): boolean => order.code === orderCode
 		);
+	}
+
+	changeOrderStatus(_currentOrder: Order, _status: OrderStatus): boolean {
+		let isChanged: boolean = false;
+		const existingOrder: Order | undefined = this.getOrderByCode(
+			_currentOrder.code
+		);
+
+		if (existingOrder) {
+			existingOrder.status = _status;
+
+			if (_status === "completed") {
+				console.log("Borrar del storage");
+			}
+
+			/**
+			 * TODO: Guarda en la base de datos ambos cambios
+			 */
+			isChanged = true;
+			this.saveOrdersToStorage();
+		}
+
+		return isChanged;
 	}
 
 	public getOrderSubject(): Observable<Order | null> {

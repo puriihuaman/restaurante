@@ -1,7 +1,7 @@
 import { AsyncPipe, CurrencyPipe, JsonPipe, NgClass } from "@angular/common";
 import { Component, inject, type OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { RouterLink } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
 import { ErrorMessageComponent } from "@components/error-message/error-message.component";
 import { OrderListComponent } from "@components/order-list/order-list.component";
 import { Order } from "@interfaces/order";
@@ -26,6 +26,7 @@ import type { Observable } from "rxjs";
 })
 export class OrderComponent implements OnInit {
 	private orderService: OrderService = inject(OrderService);
+	private router: Router = inject(Router);
 
 	public orders$!: Observable<Order[]>;
 	public customerName: string = "";
@@ -76,12 +77,29 @@ export class OrderComponent implements OnInit {
 		}
 	}
 
+	generateTicket(_currentOrder: Order): void {
+		const isChanged: boolean = this.orderService.changeOrderStatus(
+			_currentOrder,
+			"paid"
+		);
+
+		if (isChanged) {
+			/**
+			 *  TODO: Save to database
+			 * función en el servicio que guarde el pedido con el estado pendiente,
+			 * recuperar del localstorage
+			 */
+			this.router.navigate(["/boleta", _currentOrder.code]);
+		}
+	}
+
 	private createOrder(_clientName: string): Order {
 		return {
 			code: crypto.randomUUID(),
 			client: _clientName,
 			products: [],
 			total: 0,
+			status: "pending",
 		};
 	}
 
