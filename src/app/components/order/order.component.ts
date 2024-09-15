@@ -4,7 +4,7 @@ import { FormsModule } from "@angular/forms";
 import { Router, RouterLink } from "@angular/router";
 import { ErrorMessageComponent } from "@components/error-message/error-message.component";
 import { OrderListComponent } from "@components/order-list/order-list.component";
-import { Order } from "@interfaces/order";
+import { Order, type OrderData } from "@interfaces/order";
 import { OrderService } from "@services/order.service";
 import type { Observable } from "rxjs";
 
@@ -46,7 +46,7 @@ export class OrderComponent implements OnInit {
 			return;
 		}
 
-		const currentOrder: Order = this.createOrder(this.customerName);
+		const currentOrder: OrderData = this.createOrder(this.customerName);
 		this.orderService.addOrderToOrders(currentOrder);
 		this.resetCustomerName();
 	}
@@ -93,9 +93,8 @@ export class OrderComponent implements OnInit {
 		}
 	}
 
-	private createOrder(_clientName: string): Order {
+	private createOrder(_clientName: string): OrderData {
 		return {
-			code: crypto.randomUUID(),
 			client: _clientName,
 			products: [],
 			total: 0,

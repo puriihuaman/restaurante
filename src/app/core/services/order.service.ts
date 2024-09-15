@@ -1,4 +1,4 @@
-import { BehaviorSubject, type Observable } from "rxjs";
+import { BehaviorSubject, filter, map, type Observable } from "rxjs";
 
 import { inject, Injectable } from "@angular/core";
 import { environment } from "@environment/environment.development";
@@ -6,9 +6,21 @@ import { environment } from "@environment/environment.development";
 import type { ProductOrder } from "@interfaces/product-order";
 import type { Product } from "@interfaces/product";
 import type { ActionUser } from "@type/action-user";
-import { Order } from "@interfaces/order";
-import { collection, collectionData, Firestore } from "@angular/fire/firestore";
+import { Order, type OrderData } from "@interfaces/order";
+import {
+	addDoc,
+	collection,
+	collectionData,
+	doc,
+	Firestore,
+	getDoc,
+	updateDoc,
+	type CollectionReference,
+	type DocumentReference,
+	type DocumentSnapshot,
+} from "@angular/fire/firestore";
 import type { OrderStatus } from "@type/order-status";
+import type { DocumentData } from "@angular/fire/compat/firestore";
 
 const PATH = "orders";
 
@@ -16,15 +28,17 @@ const PATH = "orders";
 	providedIn: "root",
 })
 export class OrderService {
-	private storageName: string = environment.storageName;
+	private storageName: string = environment.STORAGE_NAME;
 	private orders: Order[] = [];
 	private ordersSubject: BehaviorSubject<Order[]> = new BehaviorSubject<
 		Order[]
 	>(this.orders);
 	private orderSubject: BehaviorSubject<Order | null> =
 		new BehaviorSubject<Order | null>(null);
+
 	private _firestore: Firestore = inject(Firestore);
-	private _collection = collection(this._firestore, PATH);
+	private _collection: CollectionReference<DocumentData, DocumentData> =
+		collection(this._firestore, PATH);
 
 	constructor() {
 		this.loadFromStorage();
@@ -39,10 +53,18 @@ export class OrderService {
 		this.ordersSubject.next(newOrders);
 	}
 
-	addOrderToOrders(newOrder: Order): void {
-		this.orders.push(newOrder);
-		this.setAllOrders(this.orders);
-		this.saveOrdersToStorage();
+	addOrderToOrders(_newOrder: OrderData): void {
+		// 1: Registrar en la db
+		this.registerOrder(_newOrder);
+
+		// 2: Recuperar de la db
+		// 3: Guardar en el localstorage
+		// 4: Mostrar lo del localstorage
+		//
+		console.log("Agregar al db");
+		// this.orders.push(_newOrder);
+		// this.setAllOrders(this.orders);
+		// this.saveOrdersToStorage();
 	}
 
 	deleteOrder(currentOrder: Order): void {
@@ -73,12 +95,10 @@ export class OrderService {
 			existingOrder.status = _status;
 
 			if (_status === "completed") {
-				console.log("Borrar del storage");
+				this.deleteOrder(_currentOrder);
+				console.log("Borrado con exito");
 			}
-
-			/**
-			 * TODO: Guarda en la base de datos ambos cambios
-			 */
+			this.updateOrder(_currentOrder);
 			isChanged = true;
 			this.saveOrdersToStorage();
 		}
@@ -217,17 +237,101 @@ export class OrderService {
 		}
 	}
 
-	public loadFromStorage(): void {
+	private getFromStorage(): Order[] {
 		const storedOrders: string | null = localStorage.getItem(this.storageName);
-		if (storedOrders) {
-			const ordersArray: Order[] = JSON.parse(storedOrders);
+		if (storedOrders) return JSON.parse(storedOrders) as Order[];
+		return [];
+	}
 
-			this.orders = ordersArray;
-			this.ordersSubject.next(this.orders);
-		}
+	private loadFromStorage(): void {
+		this.orders = this.getFromStorage();
+		this.ordersSubject.next(this.orders);
 	}
 
 	private saveOrdersToStorage(): void {
+		console.log("METODO SAVE_STORAGE");
 		localStorage.setItem(this.storageName, JSON.stringify(this.orders));
+	}
+
+	private combineOrders(_databaseOrders: Order[], _localOrders: Order[]) {
+		// Puedes usar un Set para evitar duplicados basados en el código del pedido
+		const allOrders = [..._databaseOrders, ..._localOrders];
+		const uniqueOrders = Array.from(
+			new Map(allOrders.map((order) => [order.code, order])).values()
+		);
+		return uniqueOrders;
+	}
+
+	/**
+	 * INFO: Working with firestore
+	 */
+
+	private getDocRef(
+		_id: string
+	): DocumentReference<DocumentData, DocumentData> {
+		return doc(this._firestore, PATH, _id);
+	}
+
+	private getOrders(): Observable<Order[]> {
+		return collectionData(this._collection, { idField: "code" }) as Observable<
+			Order[]
+		>;
+	}
+
+	private filterOrdersByStatus(
+		_status: OrderStatus = "pending"
+	): Observable<Order[]> {
+		return this.getOrders().pipe(
+			map((documents: Order[]): Order[] =>
+				documents.filter((doc: Order): boolean => doc.status === _status)
+			)
+		);
+	}
+
+	private async getOrderById(_id: Order["code"]): Promise<Order | null> {
+		const docRef: DocumentReference<DocumentData, DocumentData> =
+			this.getDocRef(_id);
+		const snapshot: DocumentSnapshot<DocumentData, DocumentData> = await getDoc(
+			docRef
+		);
+
+		if (snapshot.exists()) {
+			const data: DocumentData = snapshot.data();
+
+			const order: Order = {
+				code: _id,
+				client: data["client"],
+				products: data["products"],
+				status: data["status"],
+				total: data["total"],
+			};
+			return order;
+		} else {
+			return null;
+		}
+	}
+
+	private registerOrder(_order: OrderData) {
+		console.log("METODO REGISTER_ORDER");
+		addDoc(this._collection, _order)
+			.then(async (docRef) => {
+				const order: Order | null = await this.getOrderById(docRef.id);
+
+				if (order) {
+					this.orders.push(order);
+					this.setAllOrders(this.orders);
+					this.saveOrdersToStorage();
+				} else {
+					console.log("No se encontró el documento.");
+				}
+			})
+			.catch((error) => console.error(error));
+	}
+
+	private updateOrder(_order: Order) {
+		console.log("METODO UPDATE_ORDER");
+		const docRef: DocumentReference<DocumentData, DocumentData> =
+			this.getDocRef(_order.code);
+		updateDoc(docRef, { ..._order });
 	}
 }
