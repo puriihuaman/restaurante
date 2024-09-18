@@ -272,7 +272,7 @@ export class OrderService {
 		return doc(this._firestore, PATH, _id);
 	}
 
-	private getOrders(): Observable<Order[]> {
+	public getOrders(): Observable<Order[]> {
 		return collectionData(this._collection, { idField: "code" }) as Observable<
 			Order[]
 		>;

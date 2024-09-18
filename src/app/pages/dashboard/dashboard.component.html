@@ -1,0 +1,103 @@
+<div class="dashboard">
+	<aside class="sidebar">
+		<div class="logo">Sidebar</div>
+
+		<ul class="menu">
+			<li class="menu-item" (click)="handleView('order')">Pedidos</li>
+			<li class="menu-item" (click)="handleView('product')">Productos</li>
+		</ul>
+	</aside>
+
+	<div class="container">
+		<div class="content" [ngClass]="{ move: isProductView }">
+			<div class="order">
+				@if (orders$ | async; as orders) {
+				<div class="item header">
+					<div>Código</div>
+					<div>Cliente</div>
+					<div>Total</div>
+					<div>Producto</div>
+					<div>Cantidad</div>
+					<div>Precio</div>
+					<div>Categoria</div>
+				</div>
+				<div class="tbody">
+					@for (order of orders; track order.code) { @for (product of
+					order.products; track product.product.id) {
+					<!--  -->
+					<div class="item">
+						@if (product) {
+						<div class="code coding">{{ order.code }}</div>
+						<div>{{ order.client }}</div>
+						<div>{{ order.total }}</div>
+						}
+						<div>{{ product.product.title }}</div>
+						<div>{{ product.quantity }}</div>
+						<div>{{ product.product.price }}</div>
+						<div>{{ product.product.category }}</div>
+					</div>
+					}
+
+					<!--  -->
+					<div class="item">
+						@if (!order.products.length) {
+						<div class="code coding">{{ order.code }}</div>
+						<div>{{ order.client }}</div>
+						<div>{{ order.total }}</div>
+						<div>No hay productos</div>
+						}
+					</div>
+					}
+				</div>
+				}
+			</div>
+
+			<div class="product">
+				<div>
+					<form action="#">
+						<fieldset>
+							<legend>Buscar producto</legend>
+
+							<label for="product">Producto</label>
+							<input
+								type="text"
+								id="product"
+								name="product"
+								placeholder="Escribe el nombre del producto"
+							/>
+
+							<div>
+								<input type="submit" value="Buscar" class="button primary" />
+								<button class="button primary">Crear pedido</button>
+							</div>
+						</fieldset>
+					</form>
+				</div>
+
+				<div class="product--content">
+					<div class="header">
+						<div>ID</div>
+						<div>TÍTULO</div>
+						<div>DESCRIPCIÓN</div>
+						<div>PRECIO</div>
+						<div>CATEGORIA</div>
+					</div>
+
+					<div class="product--list">
+						@if (allProducts$ | async;as products) {
+						<!--  -->
+						@for (product of products; track product.id) {
+						<div class="product--item">
+							<div class="code">{{ product.id }}</div>
+							<div>{{ product.title }}</div>
+							<div>{{ product.description }}</div>
+							<div>{{ product.price }}</div>
+							<div>{{ product.category }}</div>
+						</div>
+						} }
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

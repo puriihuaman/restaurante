@@ -16,4 +16,11 @@ export const routes: Routes = [
 				(comp) => comp.TicketComponent
 			),
 	},
+	{
+		path: "admin",
+		loadComponent: () =>
+			import("@pages/dashboard/dashboard.component").then(
+				(comp) => comp.DashboardComponent
+			),
+	},
 ];

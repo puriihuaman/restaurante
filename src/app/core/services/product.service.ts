@@ -14,6 +14,10 @@ export class ProductService {
 
 	constructor() {}
 
+	getAllProducts(): Observable<Product[]> {
+		return this.allProducts.asObservable();
+	}
+
 	get allBurgers(): Observable<Product[]> {
 		return this.allProducts.pipe(
 			map((products: Product[]): Product[] =>
