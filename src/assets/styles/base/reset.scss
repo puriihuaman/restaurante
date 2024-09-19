@@ -64,7 +64,12 @@ option {
 	background-color: transparent;
 	display: block;
 	color: inherit;
-	// appearance: none; /* opcional */
+	appearance: none; /* opcional */
+	&::placeholder {
+		font-family: inherit;
+		font-size: 85%;
+		opacity: 0.9;
+	}
 }
 
 table,
@@ -99,11 +104,10 @@ svg {
 body {
 	min-height: 100vh;
 	font-size: 100%;
-
 	font-family: var(--main-font);
-	line-height: var(--lineHeights-base, 1.5em); /* opcional */
+	line-height: var(--lineHeights-base, var(--lineHeights-normal));
+	font-smooth: always;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 	// hyphens: auto; /* opcional */
-	// font-smooth: always; /* opcional */
-	// -webkit-font-smoothing: antialiased; /* opcional */
-	// -moz-osx-font-smoothing: grayscale; /* opcional */
 }
