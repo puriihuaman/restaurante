@@ -39,7 +39,7 @@
 		<div class="order__list">
 			@for (order of orders; track order.code;) {
 			<button
-				class="button default order__client--button"
+				class="button secondary-outline order__client--button"
 				[id]="order.code"
 				(click)="selectOrder(order.code)"
 			>
@@ -58,7 +58,9 @@
 
 	@if (order$ | async; as order) {
 	<div class="detail">
-		<h4 class="title">Detalles del pedido - {{ order.client }}</h4>
+		<h4 class="title">
+			Detalles del pedido - <strong>{{ order.client }}</strong>
+		</h4>
 
 		@if (order.products.length !== 0) {
 		<app-order-list [order]="order" />
@@ -74,7 +76,7 @@
 
 		<footer class="detail__footer">
 			<button
-				class="button danger detail__button--delete"
+				class="button danger-outline detail__button--delete"
 				(click)="deleteOrder(order)"
 			>
 				Eliminar pedido
