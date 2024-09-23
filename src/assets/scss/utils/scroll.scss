@@ -26,6 +26,7 @@ html {
 
 	&::-webkit-scrollbar {
 		width: var(--scroll-size);
+		height: var(--scroll-size);
 		background-color: var(--scroll-track-color);
 	}
 
