@@ -3,29 +3,92 @@
 		<div class="logo">Sidebar</div>
 
 		<ul class="menu">
-			<li class="menu-item" (click)="handleView('order')">Pedidos</li>
-			<li class="menu-item" (click)="handleView('product')">Productos</li>
+			<li
+				class="menu-item"
+				[ngClass]="{ active: isProductView }"
+				(click)="handleView('order')"
+			>
+				Pedidos
+			</li>
+			<li
+				class="menu-item"
+				[ngClass]="{ active: !isProductView }"
+				(click)="handleView('product')"
+			>
+				Productos
+			</li>
 		</ul>
 	</aside>
 
 	<div class="container">
-		<div class="content" [ngClass]="{ move: isProductView }">
+		<div class="content" [ngClass]="{ move: isOrderView }">
 			<div class="order">
-				@if (orders$ | async; as orders) {
-				<div class="item header">
-					<div>Código</div>
-					<div>Cliente</div>
-					<div>Total</div>
-					<div>Producto</div>
-					<div>Cantidad</div>
-					<div>Precio</div>
-					<div>Categoria</div>
-				</div>
-				<div class="tbody">
-					@for (order of orders; track order.code) { @for (product of
+				<section>
+					<form action="#">
+						<fieldset>
+							<legend>Buscar</legend>
+
+							<div class="field">
+								<label for="search">Buscar</label>
+								<input
+									type="search"
+									name="search"
+									id="search"
+									placeholder="Escribir el nombre del cliente"
+								/>
+							</div>
+							<div class="field"></div>
+						</fieldset>
+					</form>
+				</section>
+
+				<div class="order--content">
+					<!-- @if (orders$ | async; as orders) { -->
+					<div class="order--header">
+						<div class="header-item">Código</div>
+						<div class="header-item">Cliente</div>
+						<div class="header-item">Total</div>
+						<div class="header-item">Producto</div>
+						<div class="header-item">Cantidad</div>
+						<div class="header-item">Precio</div>
+						<div class="header-item">Categoria</div>
+					</div>
+
+					<div class="order--body">
+						<div class="body-item">
+							<div class="code">81An7aoL4W24x8bjqao9</div>
+							<div>puriihuaman</div>
+							<div>$.100.00</div>
+							<div>Hamburguesa Pollo</div>
+							<div>2</div>
+							<div>30</div>
+							<div>hamburguesa</div>
+						</div>
+
+						<div class="body-item">
+							<div class="code">qTnYA0eFmW8DtHzh5pyE</div>
+							<div>pedro</div>
+							<div>$.40.00</div>
+							<div>Ensalada Normal</div>
+							<div>4</div>
+							<div>$.5.00</div>
+							<div>ensalada</div>
+						</div>
+
+						<div class="body-item">
+							<div class="code">ZYnUFj0EXtphkR6Hs8G6</div>
+							<div>Cielo</div>
+							<div>$.0.00</div>
+							<div>No hay productos</div>
+							<!-- <div>4</div> -->
+							<!-- <div>$.5.00</div> -->
+							<!-- <div>ensalada</div> -->
+						</div>
+
+						<!-- @for (order of orders; track order.code) { @for (product of
 					order.products; track product.product.id) {
-					<!--  -->
-					<div class="item">
+					
+					<div class="body-item">
 						@if (product) {
 						<div class="code coding">{{ order.code }}</div>
 						<div>{{ order.client }}</div>
@@ -38,8 +101,8 @@
 					</div>
 					}
 
-					<!--  -->
-					<div class="item">
+			
+					<div class="body-item">
 						@if (!order.products.length) {
 						<div class="code coding">{{ order.code }}</div>
 						<div>{{ order.client }}</div>
@@ -47,54 +110,196 @@
 						<div>No hay productos</div>
 						}
 					</div>
-					}
+					} -->
+					</div>
+					<!-- } -->
 				</div>
-				}
 			</div>
 
 			<div class="product">
-				<div>
-					<form action="#">
-						<fieldset>
-							<legend>Buscar producto</legend>
+				<div class="form-container">
+					<form action="#" class="form" (ngSubmit)="searchProduct()">
+						<fieldset class="form-fieldset">
+							<legend class="form-legend">Buscar producto</legend>
 
-							<label for="product">Producto</label>
-							<input
-								type="text"
-								id="product"
-								name="product"
-								placeholder="Escribe el nombre del producto"
-							/>
+							<label for="product" class="form-label">
+								<input
+									type="text"
+									id="product"
+									name="product"
+									placeholder="Escribe el nombre del producto"
+									class="form-input"
+									autofocus
+									[(ngModel)]="searchValue"
+								/>
+							</label>
 
-							<div>
-								<input type="submit" value="Buscar" class="button primary" />
-								<button class="button primary">Crear pedido</button>
+							<div class="form-field form-buttons">
+								<input
+									type="submit"
+									value="Buscar"
+									class="button success-outline form-submit"
+								/>
+								<button
+									type="button"
+									class="button success form-create"
+									(click)="handleOpenModal()"
+								>
+									Nuevo producto
+								</button>
 							</div>
 						</fieldset>
 					</form>
 				</div>
 
-				<div class="product--content">
-					<div class="header">
-						<div>ID</div>
-						<div>TÍTULO</div>
-						<div>DESCRIPCIÓN</div>
-						<div>PRECIO</div>
-						<div>CATEGORIA</div>
-					</div>
+				<div class="modal" [ngClass]="{ open: showModal }">
+					<div class="form-container form-container-modal">
+						<form
+							action="#"
+							class="form"
+							[formGroup]="productData"
+							(submit)="sendData()"
+						>
+							<fieldset class="form-fieldset fieldset-modal">
+								<legend class="form-legend">Registrar Producto</legend>
+								<button
+									type="button"
+									class="button secondary-outline"
+									(click)="handleCloseModal()"
+								>
+									Close
+								</button>
 
-					<div class="product--list">
-						@if (allProducts$ | async;as products) {
-						<!--  -->
-						@for (product of products; track product.id) {
-						<div class="product--item">
-							<div class="code">{{ product.id }}</div>
-							<div>{{ product.title }}</div>
-							<div>{{ product.description }}</div>
-							<div>{{ product.price }}</div>
-							<div>{{ product.category }}</div>
+								<div class="form-field">
+									<label for="title" class="form-label label-modal">
+										Título
+									</label>
+									<input
+										type="text"
+										id="title"
+										name="title"
+										placeholder="Escribe el nombre del producto"
+										class="form-input"
+										autofocus
+										formControlName="title"
+									/>
+								</div>
+
+								<div class="form-field">
+									<label for="price" class="form-label label-modal">
+										Precio
+									</label>
+									<input
+										type="number"
+										id="price"
+										name="price"
+										placeholder="0.00"
+										class="form-input"
+										min="1"
+										formControlName="price"
+									/>
+								</div>
+
+								<div class="form-field">
+									<label for="category" class="form-label label-modal">
+										Categoría
+									</label>
+									<select
+										name="category"
+										id="category"
+										class="form-input form-select"
+										formControlName="category"
+									>
+										<option value="bebida">Bebida</option>
+										<option value="ensalada">Ensalada</option>
+										<option value="hamburguesa">Hamburguesa</option>
+									</select>
+								</div>
+
+								<div class="form-field">
+									<label for="description" class="form-label label-modal">
+										Descripción
+									</label>
+									<textarea
+										name="description"
+										id="description"
+										placeholder="Escribe una descripción"
+										class="form-input"
+										formControlName="description"
+									></textarea>
+								</div>
+
+								<div class="form-field">
+									<input
+										type="submit"
+										value="Registrar"
+										class="button success form-submit"
+										[ngClass]="{ disabled: productData.invalid }"
+										[disabled]="productData.invalid"
+									/>
+								</div>
+							</fieldset>
+						</form>
+						{{ productData.value | json }}
+						{{ productData.invalid }}
+						{{ productData.valid }}
+					</div>
+				</div>
+
+				<div class="product--content">
+					<div class="product--container">
+						<div class="header">
+							<div class="header-item">ID</div>
+							<div class="header-item">TÍTULO</div>
+							<div class="header-item">PRECIO</div>
+							<div class="header-item">CATEGORIA</div>
+							<div class="header-item">DESCRIPCIÓN</div>
+							<div class="header-item">ACCIÓN</div>
 						</div>
-						} }
+
+						<div class="product--list">
+							@if (products$ | async;as products) {
+							<!--  -->
+							@for (product of products; track product.id) {
+							<div class="product--item">
+								<div class="code">{{ product.id }}</div>
+								<div>{{ product.title }}</div>
+								<div>{{ product.price }}</div>
+								<div>{{ product.category }}</div>
+								<div>{{ product.description }}</div>
+								<div class="product-action">
+									<button class="button primary-outline product-btn">
+										<app-icon-svg iconID="plus" iconSize="xs" />
+									</button>
+									<button class="button danger-outline product-btn">
+										<app-icon-svg iconID="x" iconSize="xs" />
+									</button>
+								</div>
+							</div>
+							} } @else {
+							<div>Loading...</div>
+							}
+							<!-- Local -->
+							@if (allProducts$ | async;as products) {
+							<!--  -->
+							@for (product of products; track product.id) {
+							<div class="product--item">
+								<div class="code">{{ product.id }}</div>
+								<div>{{ product.title }}</div>
+								<div>{{ product.description }}</div>
+								<div>{{ product.price }}</div>
+								<div>{{ product.category }}</div>
+								<div class="product-action">
+									<button class="button primary-outline product-btn">
+										<app-icon-svg iconID="plus" iconSize="xs" />
+									</button>
+									<button class="button danger-outline product-btn">
+										<app-icon-svg iconID="x" iconSize="xs" />
+									</button>
+								</div>
+							</div>
+							} }
+						</div>
 					</div>
 				</div>
 			</div>
