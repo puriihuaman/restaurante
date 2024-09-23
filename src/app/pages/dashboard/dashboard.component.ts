@@ -39,6 +39,7 @@ export class DashboardComponent implements OnInit {
 	public orders$!: Observable<Order[]>;
 	public products$!: Observable<Product[]>;
 	public allProducts$!: Observable<Product[]>;
+	public product$!: Observable<String | null>;
 	public productData!: FormGroup;
 	public searchValue: string = "";
 	public isOrderView: boolean = true;
@@ -81,6 +82,11 @@ export class DashboardComponent implements OnInit {
 
 	searchProduct(): void {
 		console.log(this.searchValue);
+		if (this.searchValue.trim().length > 2) {
+			this.products$ = this.productService.searchProduct(this.searchValue);
+		} else {
+			this.products$ = this.productService.getProducts();
+		}
 	}
 
 	handleView(tap: string): void {
