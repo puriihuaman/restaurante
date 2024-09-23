@@ -15,6 +15,7 @@ import {
 import { IconSVGComponent } from "@components/icon-svg/icon-svg.component";
 import type { Product, ProductData } from "@interfaces/product";
 import type { Category } from "@type/category";
+import { AlertComponent } from "@components/alert/alert.component";
 
 @Component({
 	selector: "app-dashboard",
@@ -26,6 +27,7 @@ import type { Category } from "@type/category";
 		JsonPipe,
 		NgClass,
 		IconSVGComponent,
+		AlertComponent,
 	],
 	templateUrl: "./dashboard.component.html",
 	styleUrl: "./dashboard.component.scss",

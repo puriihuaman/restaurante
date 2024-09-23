@@ -1,0 +1,16 @@
+<div class="alert" [ngClass]="{ loading: isLoading }">
+	@if (isLoading) {
+	<div class="icon">
+		<span class="spinner">🌀</span>
+	</div>
+	}
+
+	<div class="content">
+		<div class="info">
+			@if (!isLoading) {
+			<span class="title">{{ title }}</span>
+			}
+			<span class="text">{{ message }}</span>
+		</div>
+	</div>
+</div>

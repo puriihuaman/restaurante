@@ -277,7 +277,7 @@
 								</div>
 							</div>
 							} } @else {
-							<div>Loading...</div>
+							<app-alert [isLoading]="true" message="Cargando..." />
 							}
 							<!-- Local -->
 							@if (allProducts$ | async;as products) {

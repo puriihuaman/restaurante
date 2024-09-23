@@ -1,0 +1,48 @@
+.alert {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: var(--space-2);
+	width: var(--sizes-full);
+	border-radius: var(--radii-md);
+	color: var(--gray-100);
+	background-color: var(--gray-900);
+	padding: var(--space-4);
+
+	&.loading {
+		color: var(--green-100);
+		background-color: var(--green-900);
+		column-gap: var(--space-4);
+	}
+}
+
+.icon {
+	.spinner {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: var(--sizes-4);
+		height: var(--sizes-4);
+		overflow: hidden;
+		animation: spinner 1s linear infinite;
+	}
+	@keyframes spinner {
+		to {
+			transform: rotate(360deg);
+		}
+	}
+}
+
+.info {
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+}
+
+.title {
+	font-family: var(--heading-font);
+}
+
+.text {
+	opacity: 0.8;
+}
