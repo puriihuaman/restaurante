@@ -16,6 +16,7 @@ import { IconSVGComponent } from "@components/icon-svg/icon-svg.component";
 import type { Product, ProductData } from "@interfaces/product";
 import type { Category } from "@type/category";
 import { AlertComponent } from "@components/alert/alert.component";
+import { NotificationComponent } from "@components/notification/notification.component";
 
 @Component({
 	selector: "app-dashboard",
@@ -28,6 +29,7 @@ import { AlertComponent } from "@components/alert/alert.component";
 		NgClass,
 		IconSVGComponent,
 		AlertComponent,
+		NotificationComponent,
 	],
 	templateUrl: "./dashboard.component.html",
 	styleUrl: "./dashboard.component.scss",

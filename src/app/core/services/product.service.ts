@@ -20,6 +20,7 @@ import {
 import { productList } from "@data/list-product";
 import type { Product, ProductData } from "@interfaces/product";
 import { BehaviorSubject, from, map, type Observable } from "rxjs";
+import { NotificationService } from "./notification.service";
 
 const PATH = "products";
 
@@ -37,6 +38,7 @@ export class ProductService {
 	private allProducts: Product[] = [];
 	private _firestore: Firestore = inject(Firestore);
 	private _collection: CollectionReference = collection(this._firestore, PATH);
+	private _notification: NotificationService = inject(NotificationService);
 
 	constructor() {
 		this.loadAllProducts();
@@ -101,8 +103,10 @@ export class ProductService {
 
 		this.performSearch(docRef)
 			.then((products: Product[]): void => {
-				if (products.length === 0) this.resetSearch();
-				else this._allProducts.next(products);
+				if (products.length === 0) {
+					this._notification.informationMessage("No hay coincidencias");
+					this.resetSearch();
+				} else this._allProducts.next(products);
 			})
 			.catch((error): void =>
 				console.error("Error al realizar la búsqueda: ", error)
@@ -142,6 +146,7 @@ export class ProductService {
 		deleteDoc(docRef)
 			.then((): void => {
 				console.log("Producto eliminado con exito");
+				this._notification.successMessage("Producto eliminado con exito");
 			})
 			.catch((error): void => console.error(error));
 	}
