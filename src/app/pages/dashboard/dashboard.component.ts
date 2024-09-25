@@ -40,6 +40,8 @@ export class DashboardComponent implements OnInit {
 	public products$!: Observable<Product[]>;
 	public allProducts$!: Observable<Product[]>;
 	public product$!: Observable<String | null>;
+	public _allProducts$!: Observable<Product[]>;
+
 	public productData!: FormGroup;
 	public searchValue: string = "";
 	public isOrderView: boolean = true;
@@ -48,8 +50,11 @@ export class DashboardComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.orders$ = this.orderService.getOrders();
-		this.allProducts$ = this.productService.getAllProducts();
-		this.products$ = this.productService.getProducts();
+		this.products$ = this.productService.getAllProducts();
+		// this.allProducts$ = this.productService.getAllProducts();
+		this.products$ = this.productService.getAllProducts();
+
+		this._allProducts$ = this.productService.getAllProducts();
 
 		this.productData = new FormGroup({
 			title: new FormControl<string>("", [
@@ -72,21 +77,32 @@ export class DashboardComponent implements OnInit {
 	}
 
 	sendData(): void {
-		console.log(this.productData.value);
 		const product: ProductData = this.productData.value;
-		this.productService.registerProduct(product);
+		this.productService.registerProduct(this.mapToProduct(product));
 
 		this.clearForm();
 		this.showModal = !this.showModal;
 	}
 
-	searchProduct(): void {
-		console.log(this.searchValue);
-		if (this.searchValue.trim().length > 2) {
-			this.products$ = this.productService.searchProduct(this.searchValue);
-		} else {
-			this.products$ = this.productService.getProducts();
+	deleteProduct(_product: Product): void {
+		if (_product) {
+			this.productService.deleteProduct(_product.id);
 		}
+	}
+
+	searchProduct(): void {
+		if (this.searchValue.trim().length > 2)
+			this.productService.searchProduct(this.searchValue);
+		else this.productService.resetSearch();
+	}
+
+	private mapToProduct(_productData: ProductData): ProductData {
+		return {
+			title: _productData.title.toLowerCase(),
+			description: _productData.description.toLowerCase(),
+			category: _productData.category,
+			price: _productData.price,
+		};
 	}
 
 	handleView(tap: string): void {

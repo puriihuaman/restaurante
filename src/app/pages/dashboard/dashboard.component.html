@@ -118,7 +118,12 @@
 
 			<div class="product">
 				<div class="form-container">
-					<form action="#" class="form" (ngSubmit)="searchProduct()">
+					<form
+						action="#"
+						autocomplete="off"
+						class="form"
+						(ngSubmit)="searchProduct()"
+					>
 						<fieldset class="form-fieldset">
 							<legend class="form-legend">Buscar producto</legend>
 
@@ -156,6 +161,7 @@
 					<div class="form-container form-container-modal">
 						<form
 							action="#"
+							autocomplete="off"
 							class="form"
 							[formGroup]="productData"
 							(submit)="sendData()"
@@ -258,7 +264,7 @@
 						</div>
 
 						<div class="product--list">
-							@if (products$ | async;as products) {
+							@if (_allProducts$ | async;as products) {
 							<!--  -->
 							@for (product of products; track product.id) {
 							<div class="product--item">
@@ -271,7 +277,10 @@
 									<button class="button primary-outline product-btn">
 										<app-icon-svg iconID="plus" iconSize="xs" />
 									</button>
-									<button class="button danger-outline product-btn">
+									<button
+										class="button danger-outline product-btn"
+										(click)="deleteProduct(product)"
+									>
 										<app-icon-svg iconID="x" iconSize="xs" />
 									</button>
 								</div>
@@ -279,26 +288,6 @@
 							} } @else {
 							<app-alert [isLoading]="true" message="Cargando..." />
 							}
-							<!-- Local -->
-							@if (allProducts$ | async;as products) {
-							<!--  -->
-							@for (product of products; track product.id) {
-							<div class="product--item">
-								<div class="code">{{ product.id }}</div>
-								<div>{{ product.title }}</div>
-								<div>{{ product.description }}</div>
-								<div>{{ product.price }}</div>
-								<div>{{ product.category }}</div>
-								<div class="product-action">
-									<button class="button primary-outline product-btn">
-										<app-icon-svg iconID="plus" iconSize="xs" />
-									</button>
-									<button class="button danger-outline product-btn">
-										<app-icon-svg iconID="x" iconSize="xs" />
-									</button>
-								</div>
-							</div>
-							} }
 						</div>
 					</div>
 				</div>
