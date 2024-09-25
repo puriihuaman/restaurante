@@ -21,6 +21,7 @@ import { productList } from "@data/list-product";
 import type { Product, ProductData } from "@interfaces/product";
 import { BehaviorSubject, from, map, type Observable } from "rxjs";
 import { NotificationService } from "./notification.service";
+import type { Notification } from "@interfaces/notification";
 
 const PATH = "products";
 
@@ -104,13 +105,20 @@ export class ProductService {
 		this.performSearch(docRef)
 			.then((products: Product[]): void => {
 				if (products.length === 0) {
-					this._notification.informationMessage("No hay coincidencias");
+					this._notification.addNotification({
+						type: "info",
+						message: "No hay coincidencias",
+					});
 					this.resetSearch();
 				} else this._allProducts.next(products);
 			})
-			.catch((error): void =>
-				console.error("Error al realizar la búsqueda: ", error)
-			);
+			.catch((error): void => {
+				console.error("Error al realizar la búsqueda: ", error);
+				this._notification.addNotification({
+					type: "error",
+					message: "Error al realizar la búsqueda",
+				});
+			});
 	}
 
 	private async performSearch(
@@ -146,7 +154,11 @@ export class ProductService {
 		deleteDoc(docRef)
 			.then((): void => {
 				console.log("Producto eliminado con exito");
-				this._notification.successMessage("Producto eliminado con exito");
+
+				this._notification.addNotification({
+					type: "success",
+					message: "Producto eliminado con exito",
+				});
 			})
 			.catch((error): void => console.error(error));
 	}

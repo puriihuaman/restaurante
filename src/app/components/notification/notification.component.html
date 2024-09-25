@@ -1,9 +1,9 @@
+@if (currentNotifications) {
 <div class="notification-container">
-	@if (currentNotificationMessage) {
-	<div class="notifcation">{{ currentNotificationMessage }}</div>
+	@for (notification of currentNotifications; track notification) {
+	<div class="notification" [ngClass]="notification.type">
+		{{ notification.message }}
+	</div>
 	}
-
-	<!-- <div *ngFor="let message of messages" class="notification">
-    {{ message }}
-  </div> -->
 </div>
+}

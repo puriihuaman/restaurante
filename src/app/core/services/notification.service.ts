@@ -6,47 +6,40 @@ import { BehaviorSubject, type Observable } from "rxjs";
 	providedIn: "root",
 })
 export class NotificationService {
-	private notification: BehaviorSubject<Notification> =
-		new BehaviorSubject<Notification>({ type: "info", message: "" });
+	private notifications: Notification[] = [];
+	private notificationsSubject: BehaviorSubject<Notification[]> =
+		new BehaviorSubject<Notification[]>(this.notifications);
 
 	constructor() {}
 
-	private setNotification(_newNotification: Notification): void {
-		this.notification.next(_newNotification);
+	private setNotifications(_newNotification: Notification): void {
+		this.notifications.push(_newNotification);
+		this.notificationsSubject.next(this.notifications);
 	}
 
-	public getNotification(): Observable<Notification> {
-		return this.notification.asObservable();
+	public getNotifications(): Observable<Notification[]> {
+		return this.notificationsSubject.asObservable();
 	}
 
-	public successMessage(_message: string): void {
-		console.log("SUCCESS");
-		this.setNotification({ type: "success", message: _message });
+	public addNotification(_notification: Notification): void {
+		this.setNotifications(_notification);
+		this.showTemporaryMessage(_notification);
 	}
 
-	public errorMessage(_message: string): void {
-		console.log("ERROR");
-		this.setNotification({ type: "error", message: _message });
+	private removeNotification(_notification: Notification): void {
+		this.notifications = this.notifications.filter(
+			(notif: Notification): boolean => notif !== _notification
+		);
+		this.notificationsSubject.next(this.notifications);
 	}
 
-	public informationMessage(_message: string): void {
-		console.log("INFORMATION");
-		this.setNotification({ type: "info", message: _message });
-	}
-
-	public warningMessage(_message: string): void {
-		console.log("WARNING");
-		this.setNotification({ type: "warning", message: _message });
-	}
-	public clearNotification(): void {
-		this.setNotification({ type: "info", message: "" });
-	}
-
-	public showTemporaryMessage(_message: string, duration: number = 3000): void {
+	private showTemporaryMessage(
+		_notification: Notification,
+		duration: number = 3000
+	): void {
 		console.log("TEMPORAL");
-		// this.setNotification({ type: "info", message: _message });
 		setTimeout((): void => {
-			this.clearNotification();
+			this.removeNotification(_notification);
 		}, duration);
 	}
 }

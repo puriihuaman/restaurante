@@ -17,6 +17,7 @@ import type { Product, ProductData } from "@interfaces/product";
 import type { Category } from "@type/category";
 import { AlertComponent } from "@components/alert/alert.component";
 import { NotificationComponent } from "@components/notification/notification.component";
+import { NotificationService } from "@services/notification.service";
 
 @Component({
 	selector: "app-dashboard",
@@ -49,6 +50,7 @@ export class DashboardComponent implements OnInit {
 	public isOrderView: boolean = true;
 	public isProductView: boolean = false;
 	public showModal: boolean = false;
+	private _notification: NotificationService = inject(NotificationService);
 
 	ngOnInit(): void {
 		this.orders$ = this.orderService.getOrders();
@@ -96,6 +98,10 @@ export class DashboardComponent implements OnInit {
 		if (this.searchValue.trim().length > 2)
 			this.productService.searchProduct(this.searchValue);
 		else this.productService.resetSearch();
+		this._notification.addNotification({
+			type: "error",
+			message: "El valor de búsqueda debe tener mínimo 3 caracteres",
+		});
 	}
 
 	private mapToProduct(_productData: ProductData): ProductData {
