@@ -1,0 +1,17 @@
+<ng-container>
+	<div class="logo">Sidebar</div>
+
+	<ul class="menu">
+		@for (menu of menuList; track menu.id) {
+		<li
+			class="menu-item"
+			[ngClass]="{ active: menu.active }"
+			(click)="handleActiveMenu(menu)"
+		>
+			<a [routerLink]="[menu.path]" class="menu-link">
+				{{ menu.title }}
+			</a>
+		</li>
+		}
+	</ul>
+</ng-container>

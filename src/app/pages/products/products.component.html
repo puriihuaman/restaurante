@@ -1,0 +1,173 @@
+<div class="product">
+	<div class="form-container">
+		<form
+			action="#"
+			autocomplete="off"
+			class="form"
+			(ngSubmit)="searchProduct()"
+		>
+			<fieldset class="form-fieldset">
+				<legend class="form-legend">Buscar producto</legend>
+
+				<label for="product" class="form-label">
+					<input
+						type="text"
+						id="product"
+						name="product"
+						placeholder="Escribe el nombre del producto"
+						class="form-input"
+						autofocus
+						[(ngModel)]="searchValue"
+					/>
+				</label>
+
+				<div class="form-field form-buttons">
+					<input
+						type="submit"
+						value="Buscar"
+						class="button success-outline form-submit"
+					/>
+					<button
+						type="button"
+						class="button success form-create"
+						(click)="handleOpenModal()"
+					>
+						Nuevo producto
+					</button>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+
+	<div class="modal" [ngClass]="{ open: showModal }">
+		<div class="form-container form-container-modal">
+			<form
+				action="#"
+				autocomplete="off"
+				class="form"
+				[formGroup]="productData"
+				(submit)="sendData()"
+			>
+				<fieldset class="form-fieldset fieldset-modal">
+					<legend class="form-legend">Registrar Producto</legend>
+
+					<div class="form-field">
+						<label for="title" class="form-label label-modal"> Título </label>
+						<input
+							type="text"
+							id="title"
+							name="title"
+							placeholder="Escribe el nombre del producto"
+							class="form-input"
+							autofocus
+							formControlName="title"
+						/>
+					</div>
+
+					<div class="form-field">
+						<label for="price" class="form-label label-modal">Precio</label>
+						<input
+							type="number"
+							id="price"
+							name="price"
+							placeholder="0.00"
+							class="form-input"
+							min="1"
+							formControlName="price"
+						/>
+					</div>
+
+					<div class="form-field">
+						<label for="category" class="form-label label-modal">
+							Categoría
+						</label>
+						<select
+							name="category"
+							id="category"
+							class="form-input form-select"
+							formControlName="category"
+						>
+							<option value="bebida">Bebida</option>
+							<option value="ensalada">Ensalada</option>
+							<option value="hamburguesa">Hamburguesa</option>
+						</select>
+					</div>
+
+					<div class="form-field">
+						<label for="description" class="form-label label-modal">
+							Descripción
+						</label>
+						<textarea
+							name="description"
+							id="description"
+							placeholder="Escribe una descripción"
+							class="form-input"
+							formControlName="description"
+						></textarea>
+					</div>
+
+					<div class="form-field form-buttons">
+						<button
+							type="button"
+							class="button danger-outline form-cancel"
+							(click)="handleCloseModal()"
+						>
+							Close
+						</button>
+
+						<input
+							type="submit"
+							value="Registrar"
+							class="button success form-submit"
+							[ngClass]="{ disabled: productData.invalid }"
+							[disabled]="productData.invalid"
+						/>
+					</div>
+				</fieldset>
+			</form>
+			{{ productData.value | json }}
+			{{ productData.invalid }}
+			{{ productData.valid }}
+		</div>
+	</div>
+
+	<div class="product--content">
+		<div class="product--container">
+			<div class="header">
+				<div class="header-item">ID</div>
+				<div class="header-item">TÍTULO</div>
+				<div class="header-item">PRECIO</div>
+				<div class="header-item">CATEGORIA</div>
+				<div class="header-item">DESCRIPCIÓN</div>
+				<div class="header-item">ACCIÓN</div>
+			</div>
+
+			<div class="product--list">
+				@if (_allProducts$ | async;as products) {
+				<!--  -->
+				@for (product of products; track product.id) {
+				<div class="product--item">
+					<div class="code">{{ product.id }}</div>
+					<div>{{ product.title }}</div>
+					<div>{{ product.price }}</div>
+					<div>{{ product.category }}</div>
+					<div>{{ product.description }}</div>
+					<div class="product-action">
+						<button class="button primary-outline product-btn">
+							<app-icon-svg iconID="plus" iconSize="xs" />
+						</button>
+						<button
+							class="button danger-outline product-btn"
+							(click)="deleteProduct(product)"
+						>
+							<app-icon-svg iconID="x" iconSize="xs" />
+						</button>
+					</div>
+				</div>
+				} } @else {
+				<app-alert [isLoading]="true" message="Cargando..." />
+				}
+			</div>
+		</div>
+	</div>
+</div>

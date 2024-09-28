@@ -1,0 +1,93 @@
+<div class="order">
+	<section>
+		<form action="#">
+			<fieldset>
+				<legend>Buscar</legend>
+
+				<div class="field">
+					<label for="search">Buscar</label>
+					<input
+						type="search"
+						name="search"
+						id="search"
+						placeholder="Escribir el nombre del cliente"
+					/>
+				</div>
+				<div class="field"></div>
+			</fieldset>
+		</form>
+	</section>
+
+	<div class="order--content">
+		<!-- @if (orders$ | async; as orders) { -->
+		<div class="order--header">
+			<div class="header-item">Código</div>
+			<div class="header-item">Cliente</div>
+			<div class="header-item">Total</div>
+			<div class="header-item">Producto</div>
+			<div class="header-item">Cantidad</div>
+			<div class="header-item">Precio</div>
+			<div class="header-item">Categoria</div>
+		</div>
+
+		<div class="order--body">
+			<div class="body-item">
+				<div class="code">81An7aoL4W24x8bjqao9</div>
+				<div>puriihuaman</div>
+				<div>$.100.00</div>
+				<div>Hamburguesa Pollo</div>
+				<div>2</div>
+				<div>30</div>
+				<div>hamburguesa</div>
+			</div>
+
+			<div class="body-item">
+				<div class="code">qTnYA0eFmW8DtHzh5pyE</div>
+				<div>pedro</div>
+				<div>$.40.00</div>
+				<div>Ensalada Normal</div>
+				<div>4</div>
+				<div>$.5.00</div>
+				<div>ensalada</div>
+			</div>
+
+			<div class="body-item">
+				<div class="code">ZYnUFj0EXtphkR6Hs8G6</div>
+				<div>Cielo</div>
+				<div>$.0.00</div>
+				<div>No tiene productos</div>
+				<!-- <div>4</div> -->
+				<!-- <div>$.5.00</div> -->
+				<!-- <div>ensalada</div> -->
+			</div>
+
+			<!-- @for (order of orders; track order.code) { @for (product of
+      order.products; track product.product.id) {
+      
+      <div class="body-item">
+        @if (product) {
+        <div class="code coding">{{ order.code }}</div>
+        <div>{{ order.client }}</div>
+        <div>{{ order.total }}</div>
+        }
+        <div>{{ product.product.title }}</div>
+        <div>{{ product.quantity }}</div>
+        <div>{{ product.product.price }}</div>
+        <div>{{ product.product.category }}</div>
+      </div>
+      }
+  
+  
+      <div class="body-item">
+        @if (!order.products.length) {
+        <div class="code coding">{{ order.code }}</div>
+        <div>{{ order.client }}</div>
+        <div>{{ order.total }}</div>
+        <div>No hay productos</div>
+        }
+      </div>
+      } -->
+		</div>
+		<!-- } -->
+	</div>
+</div>

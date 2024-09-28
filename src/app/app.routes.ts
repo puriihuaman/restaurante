@@ -22,5 +22,26 @@ export const routes: Routes = [
 			import("@pages/dashboard/dashboard.component").then(
 				(comp) => comp.DashboardComponent
 			),
+		children: [
+			{
+				path: "products",
+				loadComponent: () =>
+					import("@pages/products/products.component").then(
+						(comp) => comp.ProductsComponent
+					),
+				pathMatch: "full",
+			},
+			{
+				path: "orders",
+				loadComponent: () =>
+					import("@pages/orders/orders.component").then(
+						(comp) => comp.OrdersComponent
+					),
+			},
+			{
+				path: "**",
+				redirectTo: "products",
+			},
+		],
 	},
 ];
