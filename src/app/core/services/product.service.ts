@@ -19,7 +19,7 @@ import {
 
 import { productList } from "@data/list-product";
 import type { Product, ProductData } from "@interfaces/product";
-import { BehaviorSubject, from, map, type Observable } from "rxjs";
+import { BehaviorSubject, delay, from, map, type Observable } from "rxjs";
 import { NotificationService } from "./notification.service";
 import type { Notification } from "@interfaces/notification";
 
@@ -29,24 +29,20 @@ const PATH = "products";
 	providedIn: "root",
 })
 export class ProductService {
-	private allProductsSubject: BehaviorSubject<Product[]> = new BehaviorSubject<
-		Product[]
-	>([]);
-
 	private _allProducts: BehaviorSubject<Product[]> = new BehaviorSubject<
 		Product[]
 	>([]);
 	private allProducts: Product[] = [];
-	private _firestore: Firestore = inject(Firestore);
-	private _collection: CollectionReference = collection(this._firestore, PATH);
-	private _notification: NotificationService = inject(NotificationService);
+	private firestore: Firestore = inject(Firestore);
+	private collection: CollectionReference = collection(this.firestore, PATH);
+	private notification: NotificationService = inject(NotificationService);
 
 	constructor() {
 		this.loadAllProducts();
 	}
 
 	get allBurgers(): Observable<Product[]> {
-		return this.allProductsSubject.pipe(
+		return this._allProducts.pipe(
 			map((products: Product[]): Product[] =>
 				products.filter(
 					(product: Product): boolean => product.category === "hamburguesa"
@@ -56,7 +52,7 @@ export class ProductService {
 	}
 
 	get allSalads(): Observable<Product[]> {
-		return this.allProductsSubject.pipe(
+		return this._allProducts.pipe(
 			map((products: Product[]): Product[] =>
 				products.filter(
 					(product: Product): boolean => product.category === "ensalada"
@@ -66,19 +62,20 @@ export class ProductService {
 	}
 
 	get allDrinks(): Observable<Product[]> {
-		return this.allProductsSubject.pipe(
+		return this._allProducts.pipe(
 			map((products: Product[]): Product[] =>
 				products.filter(
 					(product: Product): boolean => product.category === "bebida"
 				)
-			)
+			),
+			delay(2000)
 		);
 	}
 
 	private getDocRef(
 		_id: string
 	): DocumentReference<DocumentData, DocumentData> {
-		return doc(this._firestore, PATH, _id);
+		return doc(this.firestore, PATH, _id);
 	}
 
 	getAllProducts(): Observable<Product[]> {
@@ -86,7 +83,7 @@ export class ProductService {
 	}
 
 	private loadAllProducts(): void {
-		const products = collectionData(this._collection, {
+		const products = collectionData(this.collection, {
 			idField: "id",
 		}) as Observable<Product[]>;
 
@@ -98,14 +95,14 @@ export class ProductService {
 
 	searchProduct(_productTitle: string): void {
 		const docRef: Query<DocumentData, DocumentData> = query(
-			this._collection,
+			this.collection,
 			where("title", "==", _productTitle)
 		);
 
 		this.performSearch(docRef)
 			.then((products: Product[]): void => {
 				if (products.length === 0) {
-					this._notification.addNotification({
+					this.notification.addNotification({
 						type: "info",
 						message: "No hay coincidencias",
 					});
@@ -114,7 +111,7 @@ export class ProductService {
 			})
 			.catch((error): void => {
 				console.error("Error al realizar la búsqueda: ", error);
-				this._notification.addNotification({
+				this.notification.addNotification({
 					type: "error",
 					message: "Error al realizar la búsqueda",
 				});
@@ -144,7 +141,7 @@ export class ProductService {
 	}
 
 	registerProduct(_productData: ProductData): void {
-		addDoc(this._collection, _productData);
+		addDoc(this.collection, _productData);
 	}
 
 	deleteProduct(_productId: Product["id"]): void {
@@ -155,7 +152,7 @@ export class ProductService {
 			.then((): void => {
 				console.log("Producto eliminado con exito");
 
-				this._notification.addNotification({
+				this.notification.addNotification({
 					type: "success",
 					message: "Producto eliminado con exito",
 				});

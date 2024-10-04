@@ -7,7 +7,7 @@
 
 			<div class="left__categories">
 				<!-- Hamburger -->
-				@if (allBurgers$ |async; as allBurgers) {
+				@if (allBurgers$ | async; as allBurgers) {
 				<app-categories-section
 					categoryName="Hamburguesas"
 					[products]="allBurgers"

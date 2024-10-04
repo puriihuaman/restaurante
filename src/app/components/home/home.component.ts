@@ -4,7 +4,7 @@ import { CategoriesSectionComponent } from "@components/categories-section/categ
 import { OrderComponent } from "@components/order/order.component";
 import type { Product } from "@interfaces/product";
 import { ProductService } from "@services/product.service";
-import type { Observable } from "rxjs";
+import { catchError, type Observable } from "rxjs";
 
 @Component({
 	selector: "app-home",
@@ -19,10 +19,19 @@ export class HomeComponent implements OnInit {
 	public allBurgers$!: Observable<Product[]>;
 	public allSalads$!: Observable<Product[]>;
 	public allDrinks$!: Observable<Product[]>;
+	public hasError: boolean = false;
+	public isLoading: boolean = true;
 
 	ngOnInit(): void {
-		this.allBurgers$ = this.productService.allBurgers;
+		this.allBurgers$ = this.productService.allBurgers.pipe(
+			catchError((error) => {
+				console.error(error);
+				this.hasError = true;
+				throw new Error(error);
+			})
+		);
 		this.allSalads$ = this.productService.allSalads;
 		this.allDrinks$ = this.productService.allDrinks;
+		this.isLoading = false;
 	}
 }
