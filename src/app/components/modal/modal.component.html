@@ -1,0 +1,13 @@
+<div
+	class="overlay"
+	[ngClass]="{ open: isOpen$ | async }"
+	(click)="closeModal()"
+>
+	<div class="modal" (click)="handleContentClick($event)" #modalContent>
+		<button class="button ranger-outline close-button" (click)="closeModal()">
+			❌
+		</button>
+
+		<ng-content></ng-content>
+	</div>
+</div>

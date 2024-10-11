@@ -1,1 +1,18 @@
+<button class="button success" (click)="openModal()">Open Modal</button>
+
+@if (isModalOpen$ | async) {
+<app-modal>
+	<h2>Modallllllllllllllllllllllllll</h2>
+	<h2>En Angular</h2>
+
+	<form>
+		<label for="name">Nombre:</label>
+		<input id="name" name="name" required />
+		<button type="submit">Enviar</button>
+	</form>
+</app-modal>
+}
+
+{{ isModalOpen$ | async }}
+
 <router-outlet />
